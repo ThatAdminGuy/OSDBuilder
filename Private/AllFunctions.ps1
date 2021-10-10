@@ -322,19 +322,19 @@ function Add-ContentExtraFilesPE {
             $CurrentLog = "$PEInfo\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Add-ContentExtraFilesPE.log"
             Write-Verbose "CurrentLog: $CurrentLog"
             #robocopy "$SetOSDBuilderPathContent\$ExtraFile" "$MountWinPE" *.* /s /ndl /xx /np /ts /tee /r:0 /w:0 /Log+:"$CurrentLog" | Out-Null
-            robocopy "$SetOSDBuilderPathContent\$ExtraFile" "$MountWinPE" *.* /S /ZB /COPY:DX /NODCOPY /XJ /NDL /NP /TEE /TS /XX /R:0 /W:0 /LOG+:"$CurrentLog" | Out-Null
+            robocopy "$SetOSDBuilderPathContent\$ExtraFile" "$MountWinPE" *.* /S /ZB /COPY:D /NODCOPY /XJ /NDL /NP /TEE /TS /XX /R:0 /W:0 /LOG+:"$CurrentLog" | Out-Null
         }
         foreach ($ExtraFile in $WinPEExtraFilesRE) {
             Write-Host "Source: $SetOSDBuilderPathContent\$ExtraFile" -ForegroundColor DarkGray
             $CurrentLog = "$PEInfo\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Add-ContentExtraFilesPE.log"
             Write-Verbose "CurrentLog: $CurrentLog"
-            robocopy "$SetOSDBuilderPathContent\$ExtraFile" "$MountWinRE" *.* /S /ZB /COPY:DX /NODCOPY /XJ /NDL /NP /TEE /TS /XX /R:0 /W:0 /LOG+:"$CurrentLog" | Out-Null
+            robocopy "$SetOSDBuilderPathContent\$ExtraFile" "$MountWinRE" *.* /S /ZB /COPY:D /NODCOPY /XJ /NDL /NP /TEE /TS /XX /R:0 /W:0 /LOG+:"$CurrentLog" | Out-Null
         }
         foreach ($ExtraFile in $WinPEExtraFilesSE) {
             Write-Host "Source: $SetOSDBuilderPathContent\$ExtraFile" -ForegroundColor DarkGray
             $CurrentLog = "$PEInfo\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Add-ContentExtraFilesPE.log"
             Write-Verbose "CurrentLog: $CurrentLog"
-            robocopy "$SetOSDBuilderPathContent\$ExtraFile" "$MountWinSE" *.* /S /ZB /COPY:DX /NODCOPY /XJ /NDL /NP /TEE /TS /XX /R:0 /W:0 /LOG+:"$CurrentLog" | Out-Null
+            robocopy "$SetOSDBuilderPathContent\$ExtraFile" "$MountWinSE" *.* /S /ZB /COPY:D /NODCOPY /XJ /NDL /NP /TEE /TS /XX /R:0 /W:0 /LOG+:"$CurrentLog" | Out-Null
         }
     } else {
         Return
