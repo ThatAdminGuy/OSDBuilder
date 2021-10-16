@@ -1,15 +1,15 @@
 function Add-ContentADKWinPE {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if (($ScriptName -ne 'New-OSBuild') -and ($ScriptName -ne 'New-PEBuild')) {Return}
     if ([string]::IsNullOrWhiteSpace($WinPEADKPE)) {Return}
     $global:ReapplyLCU = $true
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: WinPE.wim ADK Optional Components"
 
     $WinPEADKPE = $WinPEADKPE | Sort-Object Length
@@ -61,15 +61,15 @@ function Add-ContentADKWinPE {
 function Add-ContentADKWinRE {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if (($ScriptName -ne 'New-OSBuild') -and ($ScriptName -ne 'New-PEBuild')) {Return}
     if ([string]::IsNullOrWhiteSpace($WinPEADKRE)) {Return}
     $global:ReapplyLCU = $true
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: WinRE.wim ADK Optional Components"
 
     $WinPEADKRE = $WinPEADKRE | Sort-Object Length
@@ -121,20 +121,20 @@ function Add-ContentADKWinRE {
 function Add-ContentADKWinSE {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if (($ScriptName -ne 'New-OSBuild') -and ($ScriptName -ne 'New-PEBuild')) {Return}
     if ([string]::IsNullOrWhiteSpace($WinPEADKSE)) {Return}
     $global:ReapplyLCU = $true
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "WinPE: WinSE.wim ADK Optional Components"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     $WinPEADKSE = $WinPEADKSE | Sort-Object Length
     foreach ($PackagePath in $WinPEADKSE) {
         $CurrentLog = "$PEInfo\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Add-ContentADKWinSE.log"
@@ -183,13 +183,13 @@ function Add-ContentADKWinSE {
 function Add-ContentDriversOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
-    #===================================================================================================
+    #=================================================
     #   Task
-    #===================================================================================================
+    #=================================================
     if ($Drivers) {
         Show-ActionTime; Write-Host -ForegroundColor Green "OS: Drivers TASK"
         foreach ($Driver in $Drivers) {
@@ -210,9 +210,9 @@ function Add-ContentDriversOS {
             }
         }
     }
-    #===================================================================================================
+    #=================================================
     #   Template
-    #===================================================================================================
+    #=================================================
     if ($DriverTemplates) {
         Show-ActionTime; Write-Host -ForegroundColor Green "OS: Drivers TEMPLATE"
         foreach ($Driver in $DriverTemplates) {
@@ -237,21 +237,21 @@ function Add-ContentDriversOS {
 function Add-ContentDriversPE {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
-    #===================================================================================================
+    #=================================================
     #   MountPaths
-    #===================================================================================================
+    #=================================================
     $MountPaths = @(
         $MountWinPE
         $MountWinPE
         $MountWinPE
     )
-    #===================================================================================================
+    #=================================================
     #   Task
-    #===================================================================================================
+    #=================================================
     if ([string]::IsNullOrWhiteSpace($WinPEDrivers)) {Return}
     Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: Add-ContentDriversPE"
     foreach ($WinPEDriver in $WinPEDrivers) {
@@ -272,13 +272,13 @@ function Add-ContentDriversPE {
 function Add-ContentExtraFilesOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   ABORT
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
-    #===================================================================================================
+    #=================================================
     #   TASK
-    #===================================================================================================
+    #=================================================
     if ($ExtraFiles) {
         Show-ActionTime; Write-Host -ForegroundColor Green "OS: Extra Files TASK"
         foreach ($ExtraFile in $ExtraFiles) {
@@ -290,9 +290,9 @@ function Add-ContentExtraFilesOS {
             robocopy "$SetOSDBuilderPathContent\$ExtraFile" "$MountDirectory" *.* /s /ndl /xx /b /np /ts /tee /r:0 /w:0 /Log+:"$CurrentLog" | Out-Null
         }
     }
-    #===================================================================================================
+    #=================================================
     #   TEMPLATE
-    #===================================================================================================
+    #=================================================
     if ($ExtraFilesTemplates) {
         Show-ActionTime; Write-Host -ForegroundColor Green "OS: Extra Files TEMPLATE"
         foreach ($ExtraFile in $ExtraFilesTemplates) {
@@ -308,13 +308,13 @@ function Add-ContentExtraFilesOS {
 function Add-ContentExtraFilesPE {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   ABORT
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
-    #===================================================================================================
+    #=================================================
     #   TASK
-    #===================================================================================================
+    #=================================================
     if ($WinPEExtraFilesPE -or $WinPEExtraFilesRE -or $WinPEExtraFilesSE) {
         Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: Extra Files TASK"
         foreach ($ExtraFile in $WinPEExtraFilesPE) {
@@ -343,13 +343,13 @@ function Add-ContentExtraFilesPE {
 function Add-ContentScriptsOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   ABORT
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
-    #===================================================================================================
+    #=================================================
     #   TASK
-    #===================================================================================================
+    #=================================================
     if ($Scripts) {
         Show-ActionTime; Write-Host -ForegroundColor Green "OS: Scripts TASK"
         foreach ($Script in $Scripts) {
@@ -359,9 +359,9 @@ function Add-ContentScriptsOS {
             }
         }
     }
-    #===================================================================================================
+    #=================================================
     #   TEMPLATE
-    #===================================================================================================
+    #=================================================
     if ($ScriptTemplates) {
         Show-ActionTime; Write-Host -ForegroundColor Green "OS: Scripts TEMPLATE"
         foreach ($Script in $ScriptTemplates) {
@@ -375,13 +375,13 @@ function Add-ContentScriptsOS {
 function Add-ContentScriptsPE {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
-    #===================================================================================================
+    #=================================================
     #   TASK
-    #===================================================================================================
+    #=================================================
     if ($WinPEScriptsPE -or $WinPEScriptsRE -or $WinPEScriptsSE) {
         Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: Scripts TASK"
         foreach ($PSWimScript in $WinPEScriptsPE) {
@@ -411,15 +411,15 @@ function Add-ContentScriptsPE {
 function Add-ContentStartLayout {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
     if ($OSMajorVersion -ne 10) {Return}
     if ([string]::IsNullOrWhiteSpace($StartLayoutXML)) {Return}
-    #===================================================================================================
+    #=================================================
     #   TASK
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "OS: Use Content StartLayout"
     Write-Host "$SetOSDBuilderPathContent\$StartLayoutXML" -ForegroundColor DarkGray
     Try {
@@ -433,19 +433,19 @@ function Add-ContentStartLayout {
 function Add-ContentUnattend {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
     if ($OSMajorVersion -ne 10) {Return}
     if ([string]::IsNullOrWhiteSpace($UnattendXML)) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "OS: Use Content Unattend"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     Write-Host "$SetOSDBuilderPathContent\$UnattendXML" -ForegroundColor DarkGray
     if (!(Test-Path "$MountDirectory\Windows\Panther")) {New-Item -Path "$MountDirectory\Windows\Panther" -ItemType Directory -Force | Out-Null}
     Copy-Item -Path "$SetOSDBuilderPathContent\$UnattendXML" -Destination "$MountDirectory\Windows\Panther\Unattend.xml" -Force
@@ -492,51 +492,73 @@ function Add-ContentPack {
         [Alias('Type')]
         [string]$PackType = 'All'
     )
-    #===================================================================================================
+    #=================================================
     #   ABORT
-    #===================================================================================================
+    #=================================================
     if (Get-IsTemplatesEnabled) {Return}
     if ($SkipContentPacks -eq $true) {Return}
     if (($ScriptName -ne 'New-OSBuild') -and ($ScriptName -ne 'New-PEBuild')) {Return}
-    #===================================================================================================
+    #=================================================
     #   BUILD
-    #===================================================================================================
+    #=================================================
     if ($ContentPacks) {
         if ($ReleaseID -match '1909') {$MSUX = '1903'}
         elseif ($ReleaseID -match '20H2') {$MSUX = '2004'}
         elseif ($ReleaseID -match '21H1') {$MSUX = '2004'}
         elseif ($ReleaseID -match '21H2') {$MSUX = '2004'}
         else {$MSUX = $ReleaseID}
-        #===================================================================================================
+        #=================================================
         #   MEDIA ContentPacks
-        #===================================================================================================
+        #=================================================
         if ($PackType -eq 'MEDIA') {
             Show-ActionTime; Write-Host -ForegroundColor Green "MEDIA: ContentPack"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\MEDIA"
-                Add-ContentPackMEDIA -ContentPackContent "$ContentPackPath\ALL"
-                Add-ContentPackMEDIA -ContentPackContent "$ContentPackPath\$OSArchitecture"
-                Add-ContentPackMEDIA -ContentPackContent "$ContentPackPath\$ReleaseID $OSArchitecture"
+
+                $ContentPaths = @(
+                    "$ContentPackPath\ALL"
+                    "$ContentPackPath\$OSArchitecture"
+                    "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture"
+                )
+                foreach ($ContentPath in $ContentPaths) {
+                    if (! (Test-Path $ContentPath)) {New-Item -Path $ContentPath -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
+                    Add-ContentPackMEDIA -ContentPackContent $ContentPath
+                }
             }
         }
-        #===================================================================================================
+        #=================================================
         #   OS ContentPacks
-        #===================================================================================================
+        #=================================================
         if ($PackType -eq 'OSDrivers') {
             Show-ActionTime; Write-Host -ForegroundColor Green "OS: ContentPack OSDrivers"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\OSDrivers"
-                Add-ContentPackOSDrivers -ContentPackContent "$ContentPackPath\ALL"
-                Add-ContentPackOSDrivers -ContentPackContent "$ContentPackPath\$OSArchitecture"
-                Add-ContentPackOSDrivers -ContentPackContent "$ContentPackPath\$ReleaseID $OSArchitecture"
+
+                $ContentPaths = @(
+                    "$ContentPackPath\ALL"
+                    "$ContentPackPath\$OSArchitecture"
+                    "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture"
+                )
+                foreach ($ContentPath in $ContentPaths) {
+                    if (! (Test-Path $ContentPath)) {New-Item -Path $ContentPath -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
+                    Add-ContentPackOSDrivers -ContentPackContent $ContentPath
+                }
             }
         }
         if ($PackType -eq 'OSExtraFiles') {
             Show-ActionTime; Write-Host -ForegroundColor Green "OS: ContentPack OSExtraFiles"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\OSExtraFiles"
-                Add-ContentPackOSExtraFiles -ContentPackContent "$ContentPackPath\ALL"
-                Add-ContentPackOSExtraFiles -ContentPackContent "$ContentPackPath\$OSArchitecture"
+
+                $ContentPaths = @(
+                    "$ContentPackPath\ALL"
+                    "$ContentPackPath\$OSArchitecture"
+                    "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture"
+                )
+                foreach ($ContentPath in $ContentPaths) {
+                    if (! (Test-Path $ContentPath)) {New-Item -Path $ContentPath -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
+                    Add-ContentPackOSExtraFiles -ContentPackContent $ContentPath
+                }
                 Get-ChildItem "$ContentPackPath\All Subdirs" -Directory -ErrorAction SilentlyContinue | foreach {Add-ContentPackOSExtraFiles -ContentPackContent "$($_.FullName)"}
                 Get-ChildItem "$ContentPackPath\$OSArchitecture Subdirs" -Directory -ErrorAction SilentlyContinue | foreach {Add-ContentPackOSExtraFiles -ContentPackContent "$($_.FullName)"}
             }
@@ -545,46 +567,62 @@ function Add-ContentPack {
             Show-ActionTime; Write-Host -ForegroundColor Green "OS: ContentPack OSCapability"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\OSCapability"
-                Add-ContentPackOSCapability -ContentPackContent "$ContentPackPath\$MSUX $OSArchitecture"
-                Add-ContentPackOSCapability -ContentPackContent "$ContentPackPath\$MSUX $OSArchitecture RSAT" -RSAT
+
+                if (! (Test-Path "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture")) {New-Item -Path "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture" -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
+                Add-ContentPackOSCapability -ContentPackContent "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture"
+
+                if (! (Test-Path "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture RSAT")) {New-Item -Path "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture RSAT" -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
+                Add-ContentPackOSCapability -ContentPackContent "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture RSAT" -RSAT
             }
         }
         if ($PackType -eq 'OSLanguageFeatures') {
             Show-ActionTime; Write-Host -ForegroundColor Green "OS: ContentPack OSLanguageFeatures"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\OSLanguageFeatures"
-                Add-ContentPackOSLanguageFeatures -ContentPackContent "$ContentPackPath\$MSUX $OSArchitecture"
+                
+                if (! (Test-Path "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture")) {New-Item -Path "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture" -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
+                Add-ContentPackOSLanguageFeatures -ContentPackContent "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture"
             }
         }
         if ($PackType -eq 'OSLanguagePacks') {
             Show-ActionTime; Write-Host -ForegroundColor Green "OS: ContentPack OSLanguagePacks"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\OSLanguagePacks"
-                Add-ContentPackOSLanguagePacks -ContentPackContent "$ContentPackPath\$MSUX $OSArchitecture"
+                
+                if (! (Test-Path "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture")) {New-Item -Path "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture" -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
+                Add-ContentPackOSLanguagePacks -ContentPackContent "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture"
             }
         }
         if ($PackType -eq 'OSLocalExperiencePacks') {
             Show-ActionTime; Write-Host -ForegroundColor Green "OS: ContentPack OSLocalExperiencePacks"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\OSLocalExperiencePacks"
-                Add-ContentPackOSLocalExperiencePacks -ContentPackContent "$ContentPackPath\$MSUX $OSArchitecture"
+                
+                if (! (Test-Path "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture")) {New-Item -Path "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture" -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
+                Add-ContentPackOSLocalExperiencePacks -ContentPackContent "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture"
             }
         }
         if ($PackType -eq 'OSPackages') {
             Show-ActionTime; Write-Host -ForegroundColor Green "OS: ContentPack OSPackages"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\OSPackages"
-                Add-ContentPackOSPackages -ContentPackContent "$ContentPackPath\$ReleaseID $OSArchitecture"
+                
+                if (! (Test-Path "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture")) {New-Item -Path "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture" -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
+                Add-ContentPackOSPackages -ContentPackContent "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture"
             }
         }
         if ($PackType -eq 'OSPoshMods') {
             Show-ActionTime; Write-Host -ForegroundColor Green "OS: ContentPack OSPoshMods"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\OSPoshMods"
+
+                if (! (Test-Path "$ContentPackPath\ProgramFiles")) {New-Item -Path "$ContentPackPath\ProgramFiles" -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
                 Add-ContentPackOSPoshMods -ContentPackContent "$ContentPackPath\ProgramFiles"
             }
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\OSPoshMods"
+
+                if (! (Test-Path "$ContentPackPath\System")) {New-Item -Path "$ContentPackPath\System" -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
                 Add-ContentPackOSPoshModsSystem -ContentPackContent "$ContentPackPath\System"
             }
         }
@@ -592,50 +630,74 @@ function Add-ContentPack {
             Show-ActionTime; Write-Host -ForegroundColor Green "OS: ContentPack OSRegistry"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\OSRegistry"
-                Add-ContentPackOSRegistry -ContentPackContent "$ContentPackPath\ALL"
-                Add-ContentPackOSRegistry -ContentPackContent "$ContentPackPath\$OSArchitecture"
-                Add-ContentPackOSRegistry -ContentPackContent "$ContentPackPath\$ReleaseID $OSArchitecture"
+
+                $ContentPaths = @(
+                    "$ContentPackPath\ALL"
+                    "$ContentPackPath\$OSArchitecture"
+                    "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture"
+                )
+                foreach ($ContentPath in $ContentPaths) {
+                    if (! (Test-Path $ContentPath)) {New-Item -Path $ContentPath -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
+                    Add-ContentPackOSRegistry -ContentPackContent $ContentPath
+                }
             }
         }
         if ($PackType -eq 'OSScripts') {
             Show-ActionTime; Write-Host -ForegroundColor Green "OS: ContentPack OSScripts"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\OSScripts"
-                Add-ContentPackOSScripts -ContentPackContent "$ContentPackPath\ALL"
-                Add-ContentPackOSScripts -ContentPackContent "$ContentPackPath\$OSArchitecture"
-                Add-ContentPackOSScripts -ContentPackContent "$ContentPackPath\$ReleaseID $OSArchitecture"
+
+                $ContentPaths = @(
+                    "$ContentPackPath\ALL"
+                    "$ContentPackPath\$OSArchitecture"
+                    "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture"
+                )
+                foreach ($ContentPath in $ContentPaths) {
+                    if (! (Test-Path $ContentPath)) {New-Item -Path $ContentPath -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
+                    Add-ContentPackOSScripts -ContentPackContent $ContentPath
+                }
             }
         }
         if ($PackType -eq 'OSStartLayout') {
             Show-ActionTime; Write-Host -ForegroundColor Green "OS: ContentPack OSStartLayout"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\OSStartLayout"
-                Add-ContentPackOSStartLayouts -ContentPackContent "$ContentPackPath\ALL"
-                Add-ContentPackOSStartLayouts -ContentPackContent "$ContentPackPath\$OSArchitecture"
-                Add-ContentPackOSStartLayouts -ContentPackContent "$ContentPackPath\$ReleaseID $OSArchitecture"
+
+                $ContentPaths = @(
+                    "$ContentPackPath\ALL"
+                    "$ContentPackPath\$OSArchitecture"
+                    "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture"
+                )
+                foreach ($ContentPath in $ContentPaths) {
+                    if (! (Test-Path $ContentPath)) {New-Item -Path $ContentPath -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
+                    Add-ContentPackOSStartLayouts -ContentPackContent $ContentPath
+                }
             }
         }
-        #===================================================================================================
+        #=================================================
         #   WinPE ContentPacks
-        #===================================================================================================
+        #=================================================
         if ($PackType -eq 'PEADK') {
             Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: ContentPack PEADK"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\PEADK"
-                Add-ContentPackPEADK -ContentPackContent "$ContentPackPath\$MSUX $OSArchitecture"
+                if (! (Test-Path "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture")) {New-Item -Path "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture" -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
+                Add-ContentPackPEADK -ContentPackContent "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture"
             }
         }
         if ($PackType -eq 'PEADKLang') {
             Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: ContentPack PEADKLang"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\PEADKLang"
-                Add-ContentPackPEADK -ContentPackContent "$ContentPackPath\$MSUX $OSArchitecture" -Lang
+                if (! (Test-Path "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture")) {New-Item -Path "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture" -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
+                Add-ContentPackPEADK -ContentPackContent "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture" -Lang
             }
         }
         if ($PackType -eq 'PEDaRT') {
             Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: ContentPack PEDaRT"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\PEDaRT"
+                if (! (Test-Path $ContentPackPath)) {New-Item -Path $ContentPackPath -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
                 Add-ContentPackPEDaRT -ContentPackContent "$ContentPackPath"
             }
         }
@@ -643,16 +705,32 @@ function Add-ContentPack {
             Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: ContentPack PEDrivers"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\PEDrivers"
-                Add-ContentPackPEDrivers -ContentPackContent "$ContentPackPath\ALL"
-                Add-ContentPackPEDrivers -ContentPackContent "$ContentPackPath\$OSArchitecture"
+
+                $ContentPaths = @(
+                    "$ContentPackPath\ALL"
+                    "$ContentPackPath\$OSArchitecture"
+                    "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture"
+                )
+                foreach ($ContentPath in $ContentPaths) {
+                    if (! (Test-Path $ContentPath)) {New-Item -Path $ContentPath -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
+                    Add-ContentPackPEDrivers -ContentPackContent $ContentPath
+                }
             }
         }
         if ($PackType -eq 'PEExtraFiles') {
             Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: ContentPack PEExtraFiles"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\PEExtraFiles"
-                Add-ContentPackPEExtraFiles -ContentPackContent "$ContentPackPath\ALL"
-                Add-ContentPackPEExtraFiles -ContentPackContent "$ContentPackPath\$OSArchitecture"
+
+                $ContentPaths = @(
+                    "$ContentPackPath\ALL"
+                    "$ContentPackPath\$OSArchitecture"
+                    "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture"
+                )
+                foreach ($ContentPath in $ContentPaths) {
+                    if (! (Test-Path $ContentPath)) {New-Item -Path $ContentPath -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
+                    Add-ContentPackPEExtraFiles -ContentPackContent $ContentPath
+                }
 
                 Get-ChildItem "$ContentPackPath\ALL Subdirs" -Directory -ErrorAction SilentlyContinue | foreach {
                     Add-ContentPackPEExtraFiles -ContentPackContent "$($_.FullName)"
@@ -666,10 +744,14 @@ function Add-ContentPack {
             Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: ContentPack PEPoshMods"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\PEPoshMods"
+
+                if (! (Test-Path "$ContentPackPath\ProgramFiles")) {New-Item -Path "$ContentPackPath\ProgramFiles" -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
                 Add-ContentPackPEPoshMods -ContentPackContent "$ContentPackPath\ProgramFiles"
             }
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\PEPoshMods"
+                
+                if (! (Test-Path "$ContentPackPath\System")) {New-Item -Path "$ContentPackPath\System" -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
                 Add-ContentPackPEPoshModsSystem -ContentPackContent "$ContentPackPath\System"
             }
         }
@@ -677,18 +759,32 @@ function Add-ContentPack {
             Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: ContentPack PERegistry"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\PERegistry"
-                Add-ContentPackPERegistry -ContentPackContent "$ContentPackPath\ALL"
-                Add-ContentPackPERegistry -ContentPackContent "$ContentPackPath\$OSArchitecture"
-                Add-ContentPackPERegistry -ContentPackContent "$ContentPackPath\$ReleaseID $OSArchitecture"
+
+                $ContentPaths = @(
+                    "$ContentPackPath\ALL"
+                    "$ContentPackPath\$OSArchitecture"
+                    "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture"
+                )
+                foreach ($ContentPath in $ContentPaths) {
+                    if (! (Test-Path $ContentPath)) {New-Item -Path $ContentPath -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
+                    Add-ContentPackPERegistry -ContentPackContent $ContentPath
+                }
             }
         }
         if ($PackType -eq 'PEScripts') {
             Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: ContentPack PEScripts"
             foreach ($ContentPack in $ContentPacks) {
                 $ContentPackPath = Join-Path $SetOSDBuilderPathContentPacks "$ContentPack\PEScripts"
-                Add-ContentPackPEScripts -ContentPackContent "$ContentPackPath\ALL"
-                Add-ContentPackPEScripts -ContentPackContent "$ContentPackPath\$OSArchitecture"
-                Add-ContentPackPEScripts -ContentPackContent "$ContentPackPath\$ReleaseID $OSArchitecture"
+
+                $ContentPaths = @(
+                    "$ContentPackPath\ALL"
+                    "$ContentPackPath\$OSArchitecture"
+                    "$ContentPackPath\$UpdateOS $ReleaseID $OSArchitecture"
+                )
+                foreach ($ContentPath in $ContentPaths) {
+                    if (! (Test-Path $ContentPath)) {New-Item -Path $ContentPath -ItemType Directory -Force -ErrorAction Ignore | Out-Null}
+                    Add-ContentPackPEScripts -ContentPackContent $ContentPath
+                }
             }
         }
     }
@@ -699,7 +795,7 @@ function Add-ContentPackMEDIA {
         [Parameter(Mandatory)]
         [string]$ContentPackContent
     )
-    Write-Host -ForegroundColor DarkGray "Automatically applying content in $ContentPackContent"
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     #======================================================================================
     #   Test
     #======================================================================================
@@ -726,7 +822,7 @@ function Add-ContentPackOSDrivers {
         [string]$ContentPackContent
         #[string]$MountDirectory
     )
-    Write-Host -ForegroundColor DarkGray "Automatically applying content in $ContentPackContent"
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     #======================================================================================
     #   Test
     #======================================================================================
@@ -756,7 +852,7 @@ function Add-ContentPackOSExtraFiles {
         [Parameter(Mandatory)]
         [string]$ContentPackContent
     )
-    Write-Host -ForegroundColor DarkGray "Automatically applying content in $ContentPackContent"
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     #======================================================================================
     #   Test
     #======================================================================================
@@ -783,7 +879,7 @@ function Add-ContentPackOSCapability {
         [string]$ContentPackContent,
         [switch]$RSAT
     )
-    Write-Host -ForegroundColor DarkGray "Automatically applying content in $ContentPackContent"
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     #======================================================================================
     #   Test
     #======================================================================================
@@ -941,7 +1037,7 @@ function Add-ContentPackOSLanguageFeatures {
         [Parameter(Mandatory)]
         [string]$ContentPackContent
     )
-    Write-Host -ForegroundColor DarkGray "Automatically applying content in $ContentPackContent"
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     #======================================================================================
     #   Test
     #======================================================================================
@@ -979,7 +1075,7 @@ function Add-ContentPackOSLanguagePacks {
         [Parameter(Mandatory)]
         [string]$ContentPackContent
     )
-    Write-Host -ForegroundColor DarkGray "Automatically applying content in $ContentPackContent"
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     #======================================================================================
     #   Test
     #======================================================================================
@@ -1016,7 +1112,7 @@ function Add-ContentPackOSLocalExperiencePacks {
         [Parameter(Mandatory)]
         [string]$ContentPackContent
     )
-    Write-Host -ForegroundColor DarkGray "Automatically applying content in $ContentPackContent"
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     #======================================================================================
     #   Test
     #======================================================================================
@@ -1056,7 +1152,7 @@ function Add-ContentPackOSPackages {
         [Parameter(Mandatory)]
         [string]$ContentPackContent
     )
-    Write-Host -ForegroundColor DarkGray "Automatically applying content in $ContentPackContent"
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     #======================================================================================
     #   Test
     #======================================================================================
@@ -1094,6 +1190,7 @@ function Add-ContentPackOSPoshMods {
         [Parameter(Mandatory)]
         [string]$ContentPackContent
     )
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     Write-Warning "OSPoshMods is being deprecated in the near future"
     #======================================================================================
     #   Test
@@ -1120,6 +1217,7 @@ function Add-ContentPackOSPoshModsSystem {
         [Parameter(Mandatory)]
         [string]$ContentPackContent
     )
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     Write-Warning "OSPoshModsSystem is being deprecated in the near future"
     #======================================================================================
     #   Test
@@ -1148,7 +1246,7 @@ function Add-ContentPackOSRegistry {
 
         [switch]$ShowRegContent
     )
-    Write-Host -ForegroundColor DarkGray "Automatically applying content in $ContentPackContent"
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     #======================================================================================
     #   Test-OSDContentPackOSRegistry
     #======================================================================================
@@ -1235,7 +1333,7 @@ function Add-ContentPackOSScripts {
         [Parameter(Mandatory)]
         [string]$ContentPackContent
     )
-    Write-Host -ForegroundColor DarkGray "Automatically running PowerShell scripts in $ContentPackContent"
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     #======================================================================================
     #   TEST
     #======================================================================================
@@ -1259,7 +1357,7 @@ function Add-ContentPackOSStartLayouts {
         [Parameter(Mandatory)]
         [string]$ContentPackContent
     )
-    Write-Host -ForegroundColor DarkGray "Automatically applying StartLayout in $ContentPackContent"
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     #======================================================================================
     #   TEST
     #======================================================================================
@@ -1299,6 +1397,7 @@ function Add-ContentPackPEADK {
         #[ValidateSet('WinPE','WinRE')]
         #[string]$SourceWim
     )
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     #======================================================================================
     #   Test
     #======================================================================================
@@ -1509,6 +1608,7 @@ function Add-ContentPackPEDaRT {
         [Parameter(Mandatory)]
         [string]$ContentPackContent
     )
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     #======================================================================================
     #   TEST
     #======================================================================================
@@ -1559,6 +1659,7 @@ function Add-ContentPackPEDrivers {
         [Parameter(Mandatory)]
         [string]$ContentPackContent
     )
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     #======================================================================================
     #   Test
     #======================================================================================
@@ -1592,6 +1693,7 @@ function Add-ContentPackPEExtraFiles {
         [Parameter(Mandatory)]
         [string]$ContentPackContent
     )
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     #======================================================================================
     #   Test
     #======================================================================================
@@ -1611,17 +1713,17 @@ function Add-ContentPackPEExtraFiles {
     #Save-WindowsImage -Path $MountWinPE | Out-Null
     if ($MountWinPE) {
         #robocopy "$ContentPackContent" "$MountWinPE" *.* /s /ndl /xx /b /np /ts /tee /r:0 /w:0 /Log+:"$CurrentLog" | Out-Null
-        robocopy "$ContentPackContent" "$MountWinPE" *.* /S /B /COPY:DX /NODCOPY /XJ /FP /NS /NC /NDL /NJH /NJS /NP /TEE /XX /R:0 /W:0 /LOG+:"$CurrentLog" | Out-Null
+        robocopy "$ContentPackContent" "$MountWinPE" *.* /S /B /COPY:D /NODCOPY /XJ /FP /NS /NC /NDL /NJH /NJS /NP /TEE /XX /R:0 /W:0 /LOG+:"$CurrentLog" | Out-Null
         #xcopy "$ContentPackContent" "$MountWinPE" /F /C /H /E /R /Y /J
         #Copy-Item "$ContentPackContent\*" -Destination "$MountWinPE\" -Recurse -Force
     }
     if ($MountWinRE) {
         #robocopy "$ContentPackContent" "$MountWinRE" *.* /s /ndl /xx /b /np /ts /tee /r:0 /w:0 /Log+:"$CurrentLog" | Out-Null
-        robocopy "$ContentPackContent" "$MountWinRE" *.* /S /B /COPY:DX /NODCOPY /XJ /FP /NS /NC /NDL /NJH /NJS /NP /TEE /XX /R:0 /W:0 /LOG+:"$CurrentLog" | Out-Null
+        robocopy "$ContentPackContent" "$MountWinRE" *.* /S /B /COPY:D /NODCOPY /XJ /FP /NS /NC /NDL /NJH /NJS /NP /TEE /XX /R:0 /W:0 /LOG+:"$CurrentLog" | Out-Null
     }
     if ($MountWinSE) {
         #robocopy "$ContentPackContent" "$MountWinSE" *.* /s /ndl /xx /b /np /ts /tee /r:0 /w:0 /Log+:"$CurrentLog" | Out-Null
-        robocopy "$ContentPackContent" "$MountWinSE" *.* /S /B /COPY:DX /NODCOPY /XJ /FP /NS /NC /NDL /NJH /NJS /NP /TEE /XX /R:0 /W:0 /LOG+:"$CurrentLog" | Out-Null
+        robocopy "$ContentPackContent" "$MountWinSE" *.* /S /B /COPY:D /NODCOPY /XJ /FP /NS /NC /NDL /NJH /NJS /NP /TEE /XX /R:0 /W:0 /LOG+:"$CurrentLog" | Out-Null
     }
     #Start-Sleep -Seconds 1
 }
@@ -1631,6 +1733,7 @@ function Add-ContentPackPEPoshMods {
         [Parameter(Mandatory)]
         [string]$ContentPackContent
     )
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     #======================================================================================
     #   Test
     #======================================================================================
@@ -1658,6 +1761,7 @@ function Add-ContentPackPEPoshModsSystem {
         [Parameter(Mandatory)]
         [string]$ContentPackContent
     )
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     #======================================================================================
     #   Test
     #======================================================================================
@@ -1686,6 +1790,7 @@ function Add-ContentPackPERegistry {
         [string]$ContentPackContent,
         [switch]$ShowRegContent
     )
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     #======================================================================================
     #   Test-OSDContentPackPERegistry
     #======================================================================================
@@ -1861,6 +1966,7 @@ function Add-ContentPackPEScripts {
         [Parameter(Mandatory)]
         [string]$ContentPackContent
     )
+    Write-Host -ForegroundColor DarkGray "AutoApply Content $ContentPackContent"
     #======================================================================================
     #   TEST
     #======================================================================================
@@ -1881,14 +1987,14 @@ function Add-ContentPackPEScripts {
 function Add-FeaturesOnDemandOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
     if ([string]::IsNullOrWhiteSpace($FeaturesOnDemand)) {Return}
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "OS: Features On Demand"
     foreach ($FOD in $FeaturesOnDemand) {
         $global:ReapplyLCU = $true
@@ -1904,24 +2010,24 @@ function Add-FeaturesOnDemandOS {
             Write-Verbose "$CurrentLog" -Verbose
         }
     }
-    #===================================================================================================
+    #=================================================
     #   PostAction
-    #===================================================================================================
+    #=================================================
     #Update-CumulativeOS -Force
     #Invoke-DismCleanupImage
 }
 function Add-LanguageFeaturesOnDemandOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
     if ($OSMajorVersion -ne 10) {Return}
     if ([string]::IsNullOrWhiteSpace($LanguageFeatures)) {Return}
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "OS: Language Features On Demand"
     foreach ($Update in $LanguageFeatures | Where-Object {$_ -notlike "*Speech*"}) {
         $global:ReapplyLCU = $true
@@ -1966,19 +2072,19 @@ function Add-LanguageFeaturesOnDemandOS {
 function Add-LanguageInterfacePacksOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
     if ($OSMajorVersion -ne 10) {Return}
     if ([string]::IsNullOrWhiteSpace($LanguageInterfacePacks)) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "OS: Language Interface Packs"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     foreach ($Update in $LanguageInterfacePacks) {
         if (Test-Path "$SetOSDBuilderPathContent\$Update") {
             Write-Host "$SetOSDBuilderPathContent\$Update" -ForegroundColor DarkGray
@@ -2000,19 +2106,19 @@ function Add-LanguageInterfacePacksOS {
 function Add-LanguagePacksOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
     if ($OSMajorVersion -ne 10) {Return}
     if ([string]::IsNullOrWhiteSpace($LanguagePacks)) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "OS: Language Packs"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     foreach ($Update in $LanguagePacks) {
         if (Test-Path "$SetOSDBuilderPathContent\$Update") {
             if ($Update -like "*.cab") {
@@ -2040,20 +2146,20 @@ function Add-LanguagePacksOS {
 function Add-LocalExperiencePacksOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
     if ($OSMajorVersion -ne 10) {Return}
     if ([string]::IsNullOrWhiteSpace($LocalExperiencePacks)) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "OS: Local Experience Packs"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     foreach ($Update in $LocalExperiencePacks) {
         if (Test-Path "$SetOSDBuilderPathContent\$Update") {
             Write-Host "$SetOSDBuilderPathContent\$Update" -ForegroundColor DarkGray
@@ -2067,13 +2173,13 @@ function Add-LocalExperiencePacksOS {
 function Add-WindowsPackageOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
-    #===================================================================================================
+    #=================================================
     #   Task
-    #===================================================================================================
+    #=================================================
     if ([string]::IsNullOrWhiteSpace($Packages)) {Return}
     Show-ActionTime; Write-Host -ForegroundColor Green "OS: Add Packages"
     foreach ($PackagePath in $Packages) {
@@ -2094,38 +2200,38 @@ function Add-WindowsPackageOS {
 function Copy-MediaLanguageSources {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
     if ($OSMajorVersion -ne 10) {Return}
     if ([string]::IsNullOrWhiteSpace($LanguageCopySources)) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "OS: Language Sources"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     foreach ($LanguageSource in $LanguageCopySources) {
         $CurrentLanguageSource = Get-OSMedia -Revision OK | Where-Object {$_.OSMFamily -eq $LanguageSource} | Select-Object -Property FullName
         Write-Host "Copying Language Resources from $($CurrentLanguageSource.FullName)" -ForegroundColor DarkGray
         robocopy "$($CurrentLanguageSource.FullName)\OS" "$OS" *.* /s /xf *.wim /ndl /xc /xn /xo /xf /xx /b /np /ts /tee /r:0 /w:0 /Log+:"$Info\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Copy-MediaLanguageSources.log" | Out-Null
     }
-    #===================================================================================================
+    #=================================================
 }
 function Copy-MediaOperatingSystem {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "MEDIA: Copy Operating System to $WorkingPath"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     #Copy-Item -Path "$OSMediaPath\*" -Destination "$WorkingPath" -Exclude ('*.wim','*.iso','*.vhd','*.vhx') -Recurse -Force | Out-Null
     robocopy "$OSMediaPath" "$WorkingPath" *.* /s /r:0 /w:0 /nfl /ndl /xf *.wim *.iso *.vhd *.vhx *.vhdx | Out-Null
     if (Test-Path "$WorkingPath\ISO") {Remove-Item -Path "$WorkingPath\ISO" -Force -Recurse | Out-Null}
@@ -2138,19 +2244,19 @@ function Copy-MediaOperatingSystem {
 function Disable-WindowsOptionalFeatureOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
     if ([string]::IsNullOrWhiteSpace($DisableFeature)) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "OS: Disable Windows Optional Feature"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     foreach ($FeatureName in $DisableFeature) {
         Write-Host $FeatureName -ForegroundColor DarkGray
         Try {
@@ -2161,19 +2267,19 @@ function Disable-WindowsOptionalFeatureOS {
             Write-Warning "$ErrorMessage"
         }
     }
-    #===================================================================================================
+    #=================================================
 }
 function Dismount-InstallwimOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "OS: Dismount from $MountDirectory"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     if ($WaitDismount.IsPresent){[void](Read-Host 'Press Enter to Continue')}
     $CurrentLog = "$Info\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Dismount-WindowsImage.log"
     Write-Verbose "CurrentLog: $CurrentLog"
@@ -2186,7 +2292,7 @@ function Dismount-InstallwimOS {
         Start-Sleep -Seconds 30
         Dismount-WindowsImage -Path "$MountDirectory" -Save -LogPath "$CurrentLog" | Out-Null
     }
-    #===================================================================================================
+    #=================================================
 }
 function Dismount-OSDOfflineRegistry {
     [CmdletBinding()]
@@ -2255,14 +2361,14 @@ function Dismount-WimsPE {
     param (
         [string]$OSMediaPath
     )
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "WinPE: Dismount-WimsPE"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     Start-Sleep -Seconds 10
     
     Write-Verbose "$MountWinPE"
@@ -2300,25 +2406,25 @@ function Dismount-WimsPE {
         Start-Sleep -Seconds 30
         Dismount-WindowsImage -Path "$MountWinSE" -Save -LogPath "$CurrentLog" | Out-Null
     }
-    #===================================================================================================
+    #=================================================
 }
 function Enable-NetFXOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
     if ($EnableNetFX3 -ne $true) {Return}
     if ($OSMajorVersion -ne 10) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "OS: Enable NetFX 3.5"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     $CurrentLog = "$Info\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Enable-NetFXOS.log"
     Write-Verbose "CurrentLog: $CurrentLog"
     Try {
@@ -2328,29 +2434,29 @@ function Enable-NetFXOS {
         $ErrorMessage = $_.Exception.Message
         Write-Warning "$ErrorMessage"
     }
-    #===================================================================================================
+    #=================================================
     #   Post Action
-    #===================================================================================================
+    #=================================================
     Update-DotNetOS -Force
     Update-CumulativeOS -Force
-    #===================================================================================================
+    #=================================================
 }
 function Enable-WindowsOptionalFeatureOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
     if ([string]::IsNullOrWhiteSpace($EnableFeature)) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "OS: Enable Windows Optional Feature"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     foreach ($FeatureName in $EnableFeature) {
         Write-Host $FeatureName -ForegroundColor DarkGray
         Try {
@@ -2363,28 +2469,28 @@ function Enable-WindowsOptionalFeatureOS {
             Write-Warning "$ErrorMessage"
         }
     }
-    #===================================================================================================
+    #=================================================
     #   Post Action
-    #===================================================================================================
+    #=================================================
     Update-CumulativeOS -Force
     Invoke-DismCleanupImage
-    #===================================================================================================
+    #=================================================
 }
 function Enable-WinREWiFi {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if (($ScriptName -ne 'New-OSBuild') -and ($ScriptName -ne 'New-OSDCloudOSMedia')) {Return}
     if ($WinREWiFi -ne $true) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: Enable WinREWiFi"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     if ($OSArchitecture -eq 'x64') {
         $IntelWirelessDriverUrl = 'https://downloadmirror.intel.com/30435/a08/WiFi_22.50.1_Driver64_Win10.zip'
     }
@@ -2410,18 +2516,18 @@ function Enable-WinREWiFi {
 function Enable-WinPEOSDCloud {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if (($ScriptName -ne 'New-OSBuild') -and ($ScriptName -ne 'New-PEBuild') -and ($ScriptName -ne 'New-OSDCloudOSMedia')) {Return}
     if ($WinPEOSDCloud -ne $true) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: OSDBuilder Function Enable-WinPEOSDCloud"
-    #===================================================================================================
+    #=================================================
     #   MountPaths
-    #===================================================================================================
+    #=================================================
     $MountPaths = @(
         $MountWinPE
         $MountWinRE
@@ -2573,19 +2679,19 @@ Windows Registry Editor Version 5.00
 function Expand-DaRTPE {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if (($ScriptName -ne 'New-OSBuild') -and ($ScriptName -ne 'New-PEBuild')) {Return}
     if ([string]::IsNullOrWhiteSpace($WinPEDaRT)) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     $MicrosoftDartCab = "$SetOSDBuilderPathContent\$WinPEDaRT"
     Show-ActionTime; Write-Host -ForegroundColor Green "Microsoft DaRT: $MicrosoftDartCab"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     if (Test-Path "$MicrosoftDartCab") {
         if ($MountWinPE) {expand.exe "$MicrosoftDartCab" -F:*.* "$MountWinPE" | Out-Null}
         if ($MountWinRE) {expand.exe "$MicrosoftDartCab" -F:*.* "$MountWinRE" | Out-Null}
@@ -2623,14 +2729,14 @@ function Expand-DaRTPE {
 function Export-InstallwimOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "OS: Export to $OS\sources\install.wim"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     $CurrentLog = "$Info\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Export-WindowsImage.log"
     Write-Verbose "CurrentLog: $CurrentLog"
     Export-WindowsImage -SourceImagePath "$WimTemp\install.wim" -SourceIndex 1 -DestinationImagePath "$OS\sources\install.wim" -LogPath "$CurrentLog" | Out-Null
@@ -2640,14 +2746,14 @@ function Export-PEBootWim {
     param (
         [string]$OSMediaPath
     )
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "WinPE: Rebuild $OSMediaPath\OS\sources\boot.wim"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     $CurrentLog = "$OSMediaPath\WinPE\info\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Export-WindowsImage-WinPE.log"
     Write-Verbose "CurrentLog: $CurrentLog"
     Export-WindowsImage -SourceImagePath "$OSMediaPath\WimTemp\winpe.wim" -SourceIndex 1 -DestinationImagePath "$OSMediaPath\WinPE\boot.wim" -LogPath "$CurrentLog" | Out-Null
@@ -2662,14 +2768,14 @@ function Export-PEWims {
     param (
         [string]$OSMediaPath
     )
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "WinPE: Export WIMs to $OSMediaPath\WinPE"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     $CurrentLog = "$OSMediaPath\WinPE\info\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Export-WindowsImage-WinPE.log"
     Write-Verbose "CurrentLog: $CurrentLog"
     Export-WindowsImage -SourceImagePath "$OSMediaPath\WimTemp\winpe.wim" -SourceIndex 1 -DestinationImagePath "$OSMediaPath\WinPE\winpe.wim" -LogPath "$CurrentLog" | Out-Null
@@ -2717,24 +2823,24 @@ function Export-SessionsXmlOS {
 }
 function Get-FeatureUpdateDownloads {
     $FeatureUpdateDownloads = @()
-    $FeatureUpdateDownloads = Get-OSDSUS FeatureUpdate
+    $FeatureUpdateDownloads = Get-WSUSXML FeatureUpdate
 <#     $CatalogsXmls = @()
     $CatalogsXmls = Get-ChildItem "$($MyInvocation.MyCommand.Module.ModuleBase)\CatalogsESD\*" -Include *.xml
     foreach ($CatalogsXml in $CatalogsXmls) {
         $FeatureUpdateDownloads += Import-Clixml -Path "$($CatalogsXml.FullName)"
     } #>
-    #===================================================================================================
+    #=================================================
     #   Get Downloadeds
-    #===================================================================================================
+    #=================================================
     foreach ($Download in $FeatureUpdateDownloads) {
         $FullUpdatePath = Join-Path $SetOSDBuilderPathFeatureUpdates $Download.FileName
         if (Test-Path $FullUpdatePath) {
             $Download.OSDStatus = "Downloaded"
         }
     }
-    #===================================================================================================
+    #=================================================
     #   Return
-    #===================================================================================================
+    #=================================================
     $FeatureUpdateDownloads = $FeatureUpdateDownloads | Select-Object -Property * | Sort-Object -Property CreationDate -Descending
     Return $FeatureUpdateDownloads
 }
@@ -2768,14 +2874,14 @@ function Get-OSBuildTask {
         #Write-Host '========================================================================================' -ForegroundColor DarkGray
         #Write-Host "$($MyInvocation.MyCommand.Name) BEGIN"
 
-        #===================================================================================================
+        #=================================================
         Write-Verbose '19.1.1 Initialize OSDBuilder'
-        #===================================================================================================
+        #=================================================
         Get-OSDBuilder -CreatePaths -HideDetails
 
-        #===================================================================================================
+        #=================================================
         Write-Verbose '19.1.1 Gather All OSBuildTask'
-        #===================================================================================================
+        #=================================================
         $AllOSBuildTasks = @()
         $AllOSBuildTasks = Get-ChildItem -Path $SetOSDBuilderPathTasks OSBuild*.json -File | Select-Object -Property *
     }
@@ -2785,9 +2891,9 @@ function Get-OSBuildTask {
         #Write-Host "$($MyInvocation.MyCommand.Name) PROCESS"
 
         $OSBuildTask = foreach ($Item in $AllOSBuildTasks) {
-            #===================================================================================================
+            #=================================================
             #Write-Verbose '19.1.1 Get Windows Image Information'
-            #===================================================================================================
+            #=================================================
             $OSBuildTaskPath = $($Item.FullName)
             Write-Verbose "OSBuildTask Full Path: $OSBuildTaskPath"
             $OSBTask = @()
@@ -2850,9 +2956,9 @@ function Get-OSBuildTask {
             }
         }
 
-        #===================================================================================================
+        #=================================================
         #Write-Verbose '19.1.3 Output'
-        #===================================================================================================
+        #=================================================
         if ($GridView.IsPresent) {$OSBuildTask | Select-Object TaskType,TaskVersion,TaskName,CustomName,SourceOSMedia,ImageName,Arch,ReleaseId,UBR,Languages,EditionId,FullName,LastWriteTime,OSMFamily,OSMGuid | Sort-Object TaskName | Out-GridView -PassThru -Title 'OSBuildTask'}
         else {$OSBuildTask | Select-Object TaskType,TaskVersion,TaskName,CustomName,SourceOSMedia,ImageName,Arch,ReleaseId,UBR,Languages,EditionId,FullName,LastWriteTime,OSMFamily,OSMGuid | Sort-Object TaskName }
     }
@@ -2919,9 +3025,9 @@ function Get-OSDUpdateDownloads {
         [string]$UpdateTitle,
         [switch]$Silent
     )
-    #===================================================================================================
+    #=================================================
     #   Filtering
-    #===================================================================================================
+    #=================================================
     if ($OSDGuid) {
         $OSDUpdateDownload = Get-OSDUpdates -Silent | Where-Object {$_.OSDGuid -eq $OSDGuid}
     } elseif ($UpdateTitle) {
@@ -2929,20 +3035,38 @@ function Get-OSDUpdateDownloads {
     } else {
         Break
     }
-    #===================================================================================================
+    #=================================================
     #   Download
-    #===================================================================================================
+    #=================================================
     foreach ($Update in $OSDUpdateDownload) {
         $DownloadPath = $SetOSDBuilderPathUpdates
         $DownloadFullPath = Join-Path $DownloadPath $(Split-Path $Update.OriginUri -Leaf)
+        #=================================================
+        #	Download
+        #=================================================
+        $SourceUrl = $Update.OriginUri
+        $SourceUrl = [Uri]::EscapeUriString($SourceUrl)
 
         if (!(Test-Path $DownloadPath)) {New-Item -Path "$DownloadPath" -ItemType Directory -Force | Out-Null}
         if (!(Test-Path $DownloadFullPath)) {
             Write-Host "$DownloadFullPath"
             Write-Host "$($Update.OriginUri)" -ForegroundColor Gray
-            $WebClient = New-Object System.Net.WebClient
-            $WebClient.DownloadFile("$($Update.OriginUri)","$DownloadFullPath")
-            #Start-BitsTransfer -Source $Update.OriginUri -Destination $DownloadFullPath
+            if (Get-Command 'curl.exe' -ErrorAction SilentlyContinue) {
+                Write-Verbose "cURL: $SourceUrl"
+                if ($host.name -match 'ConsoleHost') {
+                    Invoke-Expression "& curl.exe --insecure --location --output `"$DownloadFullPath`" --url `"$SourceUrl`""
+                }
+                else {
+                    #PowerShell ISE will display a NativeCommandError, so progress will not be displayed
+                    $Quiet = Invoke-Expression "& curl.exe --insecure --location --output `"$DownloadFullPath`" --url `"$SourceUrl`" 2>&1"
+                }
+            }
+            else {
+                [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls1
+                $WebClient = New-Object System.Net.WebClient
+                $WebClient.DownloadFile("$SourceUrl", "$DownloadFullPath")
+                $WebClient.Dispose()
+            }
         }
     }
 }
@@ -2952,13 +3076,13 @@ function Get-OSDUpdates {
     )
     $AllOSDUpdates = @()
     if ($Silent.IsPresent) {
-        $AllOSDUpdates = Get-OSDSUS Windows -Silent
+        $AllOSDUpdates = Get-WSUSXML Windows -Silent
     } else {
-        $AllOSDUpdates = Get-OSDSUS Windows
+        $AllOSDUpdates = Get-WSUSXML Windows
     }
-    #===================================================================================================
+    #=================================================
     #   Get Downloaded Updates
-    #===================================================================================================
+    #=================================================
     foreach ($Update in $AllOSDUpdates) {
         $FullUpdatePath = Join-Path $SetOSDBuilderPathUpdates $(Split-Path $Update.OriginUri -Leaf)
 
@@ -2966,22 +3090,22 @@ function Get-OSDUpdates {
             $Update.OSDStatus = "Downloaded"
         }
     }
-    #===================================================================================================
+    #=================================================
     #   Return
-    #===================================================================================================
+    #=================================================
     $AllOSDUpdates = $AllOSDUpdates | Select-Object -Property *
     Return $AllOSDUpdates
 }
 function Get-OSTemplateDrivers {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if (Get-IsContentPacksEnabled) {Return}
-    #===================================================================================================
+    #=================================================
     #   Process
-    #===================================================================================================
+    #=================================================
     $DriverTemplates = @()
 
     #Write-Host "$SetOSDBuilderPathTemplates\Drivers\AutoApply\Global" -ForegroundColor Gray
@@ -3006,13 +3130,13 @@ function Get-OSTemplateDrivers {
 function Get-OSTemplateExtraFiles {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if (Get-IsContentPacksEnabled) {Return}
-    #===================================================================================================
+    #=================================================
     #   Process
-    #===================================================================================================
+    #=================================================
     $ExtraFilesTemplates = @()
 
     #Write-Host "$SetOSDBuilderPathTemplates\ExtraFiles\AutoApply\Global" -ForegroundColor DarkGray
@@ -3037,13 +3161,13 @@ function Get-OSTemplateExtraFiles {
 function Get-OSTemplateRegistryReg {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if (Get-IsContentPacksEnabled) {Return}
-    #===================================================================================================
+    #=================================================
     #   Process
-    #===================================================================================================
+    #=================================================
     $RegistryTemplatesRegOriginal = @()
     $RegistryTemplatesRegOriginal = Get-ChildItem "$SetOSDBuilderPathTemplates\Registry\AutoApply" *.reg -Recurse | Select-Object -Property Name, BaseName, Extension, Directory, FullName
     
@@ -3083,13 +3207,13 @@ function Get-OSTemplateRegistryReg {
 function Get-OSTemplateRegistryXml {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if (Get-IsContentPacksEnabled) {Return}
-    #===================================================================================================
+    #=================================================
     #   Process
-    #===================================================================================================
+    #=================================================
     $RegistryTemplatesXml = @()
 
     #Write-Host "$SetOSDBuilderPathTemplates\Registry\AutoApply\Global" -ForegroundColor DarkGray
@@ -3114,13 +3238,13 @@ function Get-OSTemplateRegistryXml {
 function Get-OSTemplateScripts {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if (Get-IsContentPacksEnabled) {Return}
-    #===================================================================================================
+    #=================================================
     #   Process
-    #===================================================================================================
+    #=================================================
     $ScriptTemplates = @()
 
     #Write-Host "$SetOSDBuilderPathTemplates\Scripts\AutoApply\Global" -ForegroundColor DarkGray
@@ -3148,31 +3272,31 @@ function Get-PEBuildTask {
         [switch]$GridView
     )
 
-    BEGIN {
+    Begin {
         #Write-Host '========================================================================================' -ForegroundColor DarkGray
         #Write-Host "$($MyInvocation.MyCommand.Name) BEGIN"
 
-        #===================================================================================================
+        #=================================================
         Write-Verbose '19.1.1 Initialize OSDBuilder'
-        #===================================================================================================
+        #=================================================
         Get-OSDBuilder -CreatePaths -HideDetails
 
-        #===================================================================================================
+        #=================================================
         Write-Verbose '19.1.1 Gather All PEBuildTask'
-        #===================================================================================================
+        #=================================================
         $AllPEBuildTasks = @()
         $AllPEBuildTasks = Get-ChildItem -Path $SetOSDBuilderPathTasks *.json -File | Select-Object -Property *
         $AllPEBuildTasks = $AllPEBuildTasks | Where-Object {$_.Name -like "MDT*" -or $_.Name -like "Recovery*" -or $_.Name -like "WinPE*"}
     }
 
-    PROCESS {
+    Process {
         #Write-Host '========================================================================================' -ForegroundColor DarkGray
         #Write-Host "$($MyInvocation.MyCommand.Name) PROCESS"
 
         $PEBuildTask = foreach ($Item in $AllPEBuildTasks) {
-            #===================================================================================================
+            #=================================================
             #Write-Verbose '19.1.1 Get Windows Image Information'
-            #===================================================================================================
+            #=================================================
             $PEBuildTaskPath = $($Item.FullName)
             Write-Verbose "PEBuildTask Full Path: $PEBuildTaskPath"
             
@@ -3235,22 +3359,22 @@ function Get-PEBuildTask {
             }
         }
 
-        #===================================================================================================
+        #=================================================
         #Write-Verbose '19.1.3 Output'
-        #===================================================================================================
+        #=================================================
         if ($GridView.IsPresent) {$PEBuildTask | Select-Object TaskType,TaskVersion,TaskName,CustomName,SourceOSMedia,ImageName,Arch,ReleaseId,UBR,EditionId,FullName,LastWriteTime,OSMFamily,OSMGuid | Sort-Object TaskName | Out-GridView -PassThru -Title 'PEBuildTask'}
         else {$PEBuildTask | Select-Object TaskType,TaskVersion,TaskName,CustomName,SourceOSMedia,ImageName,Arch,ReleaseId,UBR,EditionId,FullName,LastWriteTime,OSMFamily,OSMGuid | Sort-Object TaskName }
     }
 
-    END {
+    End {
         #Write-Host '========================================================================================' -ForegroundColor DarkGray
         #Write-Host "$($MyInvocation.MyCommand.Name) END"
     }
 }
 function Get-TaskContentAddFeatureOnDemand {
-    #===================================================================================================
+    #=================================================
     #   Install.Wim Features On Demand
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $FeaturesOnDemandIsoExtractDir =@()
@@ -3342,9 +3466,9 @@ function Get-TaskContentAddFeatureOnDemand {
     Return $AddFeatureOnDemand
 }
 function Get-TaskContentAddWindowsPackage {
-    #===================================================================================================
+    #=================================================
     #   Content Packages
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $AddWindowsPackage = Get-ChildItem -Path "$GetOSDBuilderPathContentPackages\*" -Include *.cab, *.msu -Recurse | Select-Object -Property Name, FullName
@@ -3364,9 +3488,9 @@ function Get-TaskContentAddWindowsPackage {
     Return $AddWindowsPackage
 }
 function Get-TaskContentDrivers {
-    #===================================================================================================
+    #=================================================
     #   Content Drivers 
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $Drivers = Get-ChildItem -Path $GetOSDBuilderPathContentDrivers -Directory -ErrorAction SilentlyContinue | Select-Object -Property Name, FullName
@@ -3385,9 +3509,9 @@ function Get-TaskContentDrivers {
     Return $Drivers
 }
 function Get-TaskContentExtraFiles {
-    #===================================================================================================
+    #=================================================
     #   Content ExtraFiles
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $ExtraFiles = Get-ChildItem -Path $GetOSDBuilderPathContentExtraFiles -Directory -ErrorAction SilentlyContinue | Select-Object -Property Name, FullName
@@ -3445,9 +3569,9 @@ function Get-TaskContentIsoExtract {
     Return $ContentIsoExtract
 }
 function Get-TaskContentLanguageCopySources {
-    #===================================================================================================
+    #=================================================
     #   Content Scripts
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $LanguageCopySources = Get-OSMedia -Revision OK
@@ -3650,9 +3774,9 @@ function Get-TaskContentLocalExperiencePacks {
     Return $LocalExperiencePacks
 }
 function Get-TaskContentPacks {
-    #===================================================================================================
+    #=================================================
     #   Content Box 
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param (
         [switch]$Select
@@ -3677,9 +3801,9 @@ function Get-TaskContentPacks {
     Return $TaskContentPacks
 }
 function Get-TaskContentScripts {
-    #===================================================================================================
+    #=================================================
     #   Content Scripts
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $Scripts = Get-ChildItem -Path $GetOSDBuilderPathContentScripts *.ps1 -ErrorAction SilentlyContinue | Select-Object -Property Name, FullName, Length, CreationTime | Sort-Object -Property FullName
@@ -3698,9 +3822,9 @@ function Get-TaskContentScripts {
     Return $Scripts
 }
 function Get-TaskContentStartLayoutXML {
-    #===================================================================================================
+    #=================================================
     #   Content StartLayout
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $StartLayoutXML = Get-ChildItem -Path $GetOSDBuilderPathContentStartLayout *.xml -ErrorAction SilentlyContinue | Select-Object -Property Name, FullName, Length, CreationTime | Sort-Object -Property FullName
@@ -3719,9 +3843,9 @@ function Get-TaskContentStartLayoutXML {
     Return $StartLayoutXML
 }
 function Get-TaskContentUnattendXML {
-    #===================================================================================================
+    #=================================================
     #   Content Unattend
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $UnattendXML = Get-ChildItem -Path $GetOSDBuilderPathContentUnattend *.xml -ErrorAction SilentlyContinue | Select-Object -Property Name, FullName, Length, CreationTime | Sort-Object -Property FullName
@@ -3740,9 +3864,9 @@ function Get-TaskContentUnattendXML {
     Return $UnattendXML
 }
 function Get-TaskDisableWindowsOptionalFeature {
-    #===================================================================================================
+    #=================================================
     #   DisableWindowsOptionalFeature
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     if (Test-Path "$($OSMedia.FullName)\info\xml\Get-WindowsOptionalFeature.xml") {
@@ -3760,9 +3884,9 @@ function Get-TaskDisableWindowsOptionalFeature {
     Return $DisableWindowsOptionalFeature
 }
 function Get-TaskEnableWindowsOptionalFeature {
-    #===================================================================================================
+    #=================================================
     #   EnableWindowsOptionalFeature
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     if (Test-Path "$($OSMedia.FullName)\info\xml\Get-WindowsOptionalFeature.xml") {
@@ -3781,9 +3905,9 @@ function Get-TaskEnableWindowsOptionalFeature {
     Return $EnableWindowsOptionalFeature
 }
 function Get-TaskRemoveAppxProvisionedPackage {
-    #===================================================================================================
+    #=================================================
     #   RemoveAppx
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     if ($($OSMedia.InstallationType) -eq 'Client') {
@@ -3802,9 +3926,9 @@ function Get-TaskRemoveAppxProvisionedPackage {
     } else {Write-Warning "Remove-AppxProvisionedPackage: Unsupported"}
 }
 function Get-TaskRemoveWindowsCapability {
-    #===================================================================================================
+    #=================================================
     #   RemoveCapability
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     if (Test-Path "$($OSMedia.FullName)\info\xml\Get-WindowsCapability.xml") {
@@ -3822,9 +3946,9 @@ function Get-TaskRemoveWindowsCapability {
     Return $RemoveWindowsCapability
 }
 function Get-TaskRemoveWindowsPackage {
-    #===================================================================================================
+    #=================================================
     #   RemovePackage
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     if (Test-Path "$($OSMedia.FullName)\info\xml\Get-WindowsPackage.xml") {
@@ -3841,9 +3965,9 @@ function Get-TaskRemoveWindowsPackage {
     Return $RemoveWindowsPackage
 }
 function Get-TaskWinPEADK {
-    #===================================================================================================
+    #=================================================
     #   WinPE ADK
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $WinPEADK = Get-ChildItem -Path ("$SetOSDBuilderPathContent\WinPE\ADK\*","$GetOSDBuilderPathContentADK\*\Windows Preinstallation Environment\*\WinPE_OCs") *.cab -Recurse -ErrorAction SilentlyContinue | Select-Object -Property Name, FullName
@@ -3888,9 +4012,9 @@ function Get-TaskWinPEADK {
     Return $WinPEADK
 }
 function Get-TaskWinPEADKPE {
-    #===================================================================================================
+    #=================================================
     #   WinPE ADK
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $WinPEADKPE = Get-ChildItem -Path ("$SetOSDBuilderPathContent\WinPE\ADK\*","$GetOSDBuilderPathContentADK\*\Windows Preinstallation Environment\*\WinPE_OCs") *.cab -Recurse -ErrorAction SilentlyContinue | Select-Object -Property Name, FullName
@@ -3935,9 +4059,9 @@ function Get-TaskWinPEADKPE {
     Return $WinPEADKPE
 }
 function Get-TaskWinPEADKRE {
-    #===================================================================================================
+    #=================================================
     #   WinRE ADK
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $WinPEADKRE = Get-ChildItem -Path ("$SetOSDBuilderPathContent\WinPE\ADK\*","$GetOSDBuilderPathContentADK\*\Windows Preinstallation Environment\*\WinPE_OCs") *.cab -Recurse -ErrorAction SilentlyContinue | Select-Object -Property Name, FullName
@@ -3989,9 +4113,9 @@ function Get-TaskWinPEADKRE {
     Return $WinPEADKRE
 }
 function Get-TaskWinPEADKSE {
-    #===================================================================================================
+    #=================================================
     #   WinRE ADK
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $WinPEADKSE = Get-ChildItem -Path ("$SetOSDBuilderPathContent\WinPE\ADK\*","$GetOSDBuilderPathContentADK\*\Windows Preinstallation Environment\*\WinPE_OCs") *.cab -Recurse -ErrorAction SilentlyContinue | Select-Object -Property Name, FullName
@@ -4036,9 +4160,9 @@ function Get-TaskWinPEADKSE {
     Return $WinPEADKSE
 }
 function Get-TaskWinPEDaRT {
-    #===================================================================================================
+    #=================================================
     #   WinPE DaRT
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $WinPEDaRT = Get-ChildItem -Path ($GetOSDBuilderPathContentDaRT,"$SetOSDBuilderPathContent\WinPE\DaRT") *.cab -Recurse -ErrorAction SilentlyContinue | Select-Object -Property Name, FullName
@@ -4057,9 +4181,9 @@ function Get-TaskWinPEDaRT {
     Return $WinPEDaRT
 }
 function Get-TaskWinPEDrivers {
-    #===================================================================================================
+    #=================================================
     #   WinPE Add-WindowsDriver
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $WinPEDrivers = Get-ChildItem -Path ($GetOSDBuilderPathContentDrivers,"$SetOSDBuilderPathContent\WinPE\Drivers") -Directory -ErrorAction SilentlyContinue | Select-Object -Property Name, FullName
@@ -4077,9 +4201,9 @@ function Get-TaskWinPEDrivers {
     Return $WinPEDrivers
 }
 function Get-TaskWinPEExtraFiles {
-    #===================================================================================================
+    #=================================================
     #   WinPEExtraFiles
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $WinPEExtraFiles = Get-ChildItem -Path ($GetOSDBuilderPathContentExtraFiles,"$SetOSDBuilderPathContent\WinPE\ExtraFiles") -Directory -ErrorAction SilentlyContinue | Select-Object -Property Name, FullName
@@ -4098,9 +4222,9 @@ function Get-TaskWinPEExtraFiles {
     Return $WinPEExtraFiles
 }
 function Get-TaskWinPEExtraFilesPE {
-    #===================================================================================================
+    #=================================================
     #   WinPEExtraFilesPE
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $WinPEExtraFilesPE = Get-ChildItem -Path ($GetOSDBuilderPathContentExtraFiles,"$SetOSDBuilderPathContent\WinPE\ExtraFiles") -Directory -ErrorAction SilentlyContinue | Select-Object -Property Name, FullName
@@ -4119,9 +4243,9 @@ function Get-TaskWinPEExtraFilesPE {
     Return $WinPEExtraFilesPE
 }
 function Get-TaskWinPEExtraFilesRE {
-    #===================================================================================================
+    #=================================================
     #   WinPEExtraFilesRE
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $WinPEExtraFilesRE = Get-ChildItem -Path ($GetOSDBuilderPathContentExtraFiles,"$SetOSDBuilderPathContent\WinPE\ExtraFiles") -Directory -ErrorAction SilentlyContinue | Select-Object -Property Name, FullName
@@ -4140,9 +4264,9 @@ function Get-TaskWinPEExtraFilesRE {
     Return $WinPEExtraFilesRE
 }
 function Get-TaskWinPEExtraFilesSE {
-    #===================================================================================================
+    #=================================================
     #   WinSE Add-ExtraFiles
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $WinPEExtraFilesSE = Get-ChildItem -Path ($GetOSDBuilderPathContentExtraFiles,"$SetOSDBuilderPathContent\WinPE\ExtraFiles") -Directory -ErrorAction SilentlyContinue | Select-Object -Property Name, FullName
@@ -4161,9 +4285,9 @@ function Get-TaskWinPEExtraFilesSE {
     Return $WinPEExtraFilesSE
 }
 function Get-TaskWinPEScripts {
-    #===================================================================================================
+    #=================================================
     #   WinPE PowerShell Scripts
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $WinPEScripts = Get-ChildItem -Path ($GetOSDBuilderPathContentScripts,"$SetOSDBuilderPathContent\WinPE\Scripts") *.ps1 -ErrorAction SilentlyContinue | Select-Object -Property Name, FullName, Length, CreationTime | Sort-Object -Property FullName
@@ -4181,9 +4305,9 @@ function Get-TaskWinPEScripts {
     Return $WinPEScripts
 }
 function Get-TaskWinPEScriptsPE {
-    #===================================================================================================
+    #=================================================
     #   WinPE PowerShell Scripts
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $WinPEScriptsPE = Get-ChildItem -Path ($GetOSDBuilderPathContentScripts,"$SetOSDBuilderPathContent\WinPE\Scripts") *.ps1 -ErrorAction SilentlyContinue | Select-Object -Property Name, FullName, Length, CreationTime | Sort-Object -Property FullName
@@ -4201,9 +4325,9 @@ function Get-TaskWinPEScriptsPE {
     Return $WinPEScriptsPE
 }
 function Get-TaskWinPEScriptsRE {
-    #===================================================================================================
+    #=================================================
     #   WinRE PowerShell Scripts
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $WinPEScriptsRE = Get-ChildItem -Path ($GetOSDBuilderPathContentScripts,"$SetOSDBuilderPathContent\WinPE\Scripts") *.ps1 -ErrorAction SilentlyContinue | Select-Object -Property Name, FullName, Length, CreationTime | Sort-Object -Property FullName
@@ -4221,9 +4345,9 @@ function Get-TaskWinPEScriptsRE {
     Return $WinPEScriptsRE
 }
 function Get-TaskWinPEScriptsSE {
-    #===================================================================================================
+    #=================================================
     #   WinSE PowerShell Scripts
-    #===================================================================================================
+    #=================================================
     [CmdletBinding()]
     param ()
     $WinPEScriptsSE = Get-ChildItem -Path ($GetOSDBuilderPathContentScripts,"$SetOSDBuilderPathContent\WinPE\Scripts") *.ps1 -ErrorAction SilentlyContinue | Select-Object -Property Name, FullName, Length, CreationTime | Sort-Object -Property FullName
@@ -4271,36 +4395,36 @@ function Get-Value {
 function Import-AutoExtraFilesPE {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if (($ScriptName -ne 'New-OSBuild') -and ($ScriptName -ne 'New-OSDCloudOSMedia')) {Return}
     if ($WinPEAutoExtraFiles -ne $true) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: Import AutoExtraFiles"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     Write-Host "Source: $WinPE\AutoExtraFiles" -ForegroundColor DarkGray
     $CurrentLog = "$PEInfo\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Import-AutoExtraFilesPE.log"
 
     robocopy "$WinPE\AutoExtraFiles" "$MountWinPE" *.* /s /ndl /xf bcp47*.dll /xx /b /np /ts /tee /r:0 /w:0 /Log+:"$CurrentLog" | Out-Null
     robocopy "$WinPE\AutoExtraFiles" "$MountWinRE" *.* /s /ndl /xf bcp47*.dll /xx /b /np /ts /tee /r:0 /w:0 /Log+:"$CurrentLog" | Out-Null
     robocopy "$WinPE\AutoExtraFiles" "$MountWinSE" *.* /s /ndl /xf bcp47*.dll /xx /b /np /ts /tee /r:0 /w:0 /Log+:"$CurrentLog" | Out-Null
-    #===================================================================================================
+    #=================================================
 }
 function Import-RegistryRegOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   ABORT
-    #===================================================================================================
+    #=================================================
     if ([string]::IsNullOrWhiteSpace($RegistryTemplatesReg)) {Return}
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     if ($RegistryTemplatesReg) {
         Show-ActionTime; Write-Host -ForegroundColor Green "OS: Template Registry REG"
         #======================================================================================
@@ -4393,13 +4517,13 @@ function Import-RegistryRegOS {
 function Import-RegistryXmlOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   ABORT
-    #===================================================================================================
+    #=================================================
     if ([string]::IsNullOrWhiteSpace($RegistryTemplatesXml)) {Return}
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "OS: Template Registry XML"
     if ($RegistryTemplatesXml) {
         #======================================================================================
@@ -4558,33 +4682,33 @@ function Invoke-DismCleanupImage {
         [switch]$HideCleanupProgress
     )
     #19.10.14 Removed Out-Null.  Modified Warning Message
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($SkipUpdates) {Return}
     if ($SkipComponentCleanup) {Return}
     if ($OSVersion -like "6.1*") {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "OS: DISM Cleanup-Image StartComponentCleanup ResetBase"
-    #===================================================================================================
+    #=================================================
     #   Abort Pending Operations
-    #===================================================================================================
+    #=================================================
     if ($OSMajorVersion -eq 10) {
         if ($(Get-WindowsCapability -Path $MountDirectory | Where-Object {$_.state -eq "*pending*"})) {
             Write-Warning "Cannot run WindowsImage Cleanup on a WIM with Pending Installations"
             Return
         }
     }
-    #===================================================================================================
+    #=================================================
     #   CurrentLog
-    #===================================================================================================
+    #=================================================
     $CurrentLog = "$Info\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Invoke-DismCleanupImage.log"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     if ($HideCleanupProgress.IsPresent) {
         Write-Warning "This process will take between 5 - 200 minutes to complete, depending on the number of Updates"
         Write-Warning "Check Task Manager DISM and DISMHOST processes for activity"
@@ -4594,18 +4718,18 @@ function Invoke-DismCleanupImage {
         Write-Verbose "$CurrentLog"
         Dism /Image:"$MountDirectory" /Cleanup-Image /StartComponentCleanup /ResetBase /LogPath:"$CurrentLog"
     }
-    #===================================================================================================
+    #=================================================
 }
 function Mount-ImportOSMediaWim {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "Mount Install.wim: $MountDirectory"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     if (!(Test-Path "$MountDirectory")) {New-Item "$MountDirectory" -ItemType Directory -Force | Out-Null}
 
     if ($OSMediaGetItem.Extension -eq '.esd') {
@@ -4623,14 +4747,14 @@ function Mount-ImportOSMediaWim {
 function Mount-InstallwimOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "OS: Mount to $MountDirectory"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     $CurrentLog = "$Info\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Mount-WindowsImage.log"
     Write-Verbose "CurrentLog: $CurrentLog"
     Mount-WindowsImage -ImagePath "$WimTemp\install.wim" -Index 1 -Path "$MountDirectory" -LogPath "$CurrentLog" | Out-Null
@@ -4666,13 +4790,13 @@ function Mount-PEBuild {
         [string]$MountDirectory,
         [string]$WorkingWim
     )
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: Mount WinPE to $MountDirectory"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     $CurrentLog = "$Info\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Mount-PEBuild.log"
     Write-Verbose "CurrentLog: $CurrentLog"
     Mount-WindowsImage -ImagePath $WorkingWim -Index 1 -Path "$MountDirectory" -LogPath "$CurrentLog" | Out-Null
@@ -4682,13 +4806,13 @@ function Mount-WinPEwim {
     param (
         [string]$OSMediaPath
     )
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: Mount WinPE.wim to $MountWinPE"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     $CurrentLog = "$OSMediaPath\WinPE\info\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Mount-WindowsImage-WinPE.log"
     Write-Verbose "CurrentLog: $CurrentLog"
     Mount-WindowsImage -ImagePath "$OSMediaPath\WimTemp\winpe.wim" -Index 1 -Path "$MountWinPE" -LogPath "$CurrentLog" | Out-Null
@@ -4698,13 +4822,13 @@ function Mount-WinREwim {
     param (
         [string]$OSMediaPath
     )
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: Mount WinRE.wim to $MountWinRE"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     $CurrentLog = "$OSMediaPath\WinPE\info\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Mount-WindowsImage-WinRE.log"
     Write-Verbose "CurrentLog: $CurrentLog"
     Mount-WindowsImage -ImagePath "$OSMediaPath\WimTemp\winre.wim" -Index 1 -Path "$MountWinRE" -LogPath "$CurrentLog" | Out-Null
@@ -4714,13 +4838,13 @@ function Mount-WinSEwim {
     param (
         [string]$OSMediaPath
     )
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: Mount WinSE.wim to $MountWinSE"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     $CurrentLog = "$OSMediaPath\WinPE\info\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Mount-WindowsImage-WinSE.log"
     Write-Verbose "CurrentLog: $CurrentLog"
     Mount-WindowsImage -ImagePath "$OSMediaPath\WimTemp\winse.wim" -Index 1 -Path "$MountWinSE" -LogPath "$CurrentLog" | Out-Null
@@ -4822,20 +4946,20 @@ function New-ItemDirectorySetOSDBuilderPathContent {
 function Remove-AppxProvisionedPackageOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
     if ($OSMajorVersion -ne 10) {Return}
     if ([string]::IsNullOrWhiteSpace($RemoveAppx)) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "OS: Remove Appx Packages"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     foreach ($item in $RemoveAppx) {
         Write-Host $item -ForegroundColor DarkGray
         Try {
@@ -4850,19 +4974,19 @@ function Remove-AppxProvisionedPackageOS {
 function Remove-WindowsCapabilityOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
     if ([string]::IsNullOrWhiteSpace($RemoveCapability)) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "OS: Remove Windows Capability"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     foreach ($Name in $RemoveCapability) {
         Write-Host $Name -ForegroundColor DarkGray
         Try {
@@ -4877,19 +5001,19 @@ function Remove-WindowsCapabilityOS {
 function Remove-WindowsPackageOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
     if ([string]::IsNullOrWhiteSpace($RemovePackage)) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "OS: Remove Windows Packages"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     foreach ($PackageName in $RemovePackage) {
         Write-Host $PackageName -ForegroundColor DarkGray
         Try {
@@ -4906,18 +5030,18 @@ function Rename-OSMedia {
     param ()
 
     BEGIN {
-        #===================================================================================================
+        #=================================================
         #   Header
-        #===================================================================================================
+        #=================================================
         #   Write-Host '========================================================================================' -ForegroundColor DarkGray
         #   Write-Host -ForegroundColor Green "$($MyInvocation.MyCommand.Name) BEGIN"
-        #===================================================================================================
+        #=================================================
         #   Get-OSDBuilder
-        #===================================================================================================
+        #=================================================
         Get-OSDBuilder -CreatePaths -HideDetails
-        #===================================================================================================
+        #=================================================
         Write-Verbose '19.1.1 Gather All OSMedia'
-        #===================================================================================================
+        #=================================================
         $AllOSMedia = @()
         $AllOSMedia = Get-ChildItem -Path "$SetOSDBuilderPathOSMedia" -Directory | Select-Object -Property * | Where-Object {Test-Path $(Join-Path $_.FullName "info\xml\Get-WindowsImage.xml")}
     }
@@ -4927,9 +5051,9 @@ function Rename-OSMedia {
         #Write-Host "$($MyInvocation.MyCommand.Name) PROCESS"
 
         $RenameOSMedia = foreach ($Item in $AllOSMedia) {
-            #===================================================================================================
+            #=================================================
             #Write-Verbose '19.1.1 Get Windows Image Information'
-            #===================================================================================================
+            #=================================================
             $RenameOSMediaPath = $($Item.FullName)
             Write-Verbose "OSMedia Full Path: $RenameOSMediaPath"
             
@@ -4969,9 +5093,17 @@ function Rename-OSMedia {
 
             $OperatingSystem = ''
             if ($OSMMajorVersion -eq 6 -and $OSMInstallationType -eq 'Client') {$OperatingSystem = 'Windows 7'}
-            if ($OSMMajorVersion -eq 10 -and $OSMInstallationType -eq 'Client') {$OperatingSystem = 'Windows 10'}
-            if ($OSMMajorVersion -eq 10 -and $OSMInstallationType -eq 'Server' -and $OSMImageName -like "*2016*") {$OperatingSystem = 'Server 2016'}
-            if ($OSMMajorVersion -eq 10 -and $OSMInstallationType -eq 'Server' -and $OSMImageName -like "*2019*") {$OperatingSystem = 'Server 2019'}
+            if ($OSMMajorVersion -eq 10 -and $OSMInstallationType -eq 'Client') {
+                if ($OSMImageName -match ' 11 ') {
+                    $OperatingSystem = 'Windows 11'
+                }
+                else {
+                    $OperatingSystem = 'Windows 10'
+                }
+            }
+            if ($OSMMajorVersion -eq 10 -and $OSMInstallationType -eq 'Server' -and $OSMImageName -match '2016') {$OperatingSystem = 'Server 2016'}
+            if ($OSMMajorVersion -eq 10 -and $OSMInstallationType -eq 'Server' -and $OSMImageName -match '2019') {$OperatingSystem = 'Server 2019'}
+            if ($OSMMajorVersion -eq 10 -and $OSMInstallationType -eq 'Server' -and $OSMImageName -match '2022') {$OperatingSystem = 'Server 2022'}
 
             $OSMUBR = $($OSMWindowsImage.UBR)
             Write-Verbose "UBR: $OSMUBR"
@@ -5000,9 +5132,9 @@ function Rename-OSMedia {
                 Write-Verbose "Guid: $OSMGuid"
             }
 
-            #===================================================================================================
+            #=================================================
             #Write-Verbose '19.1.1 Gather Registry Information'
-            #===================================================================================================
+            #=================================================
             $OSMRegistry = @()
             if (Test-Path "$RenameOSMediaPath\info\xml\CurrentVersion.xml") {
                 Write-Verbose "Registry: $RenameOSMediaPath\info\xml\CurrentVersion.xml"
@@ -5040,9 +5172,9 @@ function Rename-OSMedia {
             if ($($($OSMWindowsImage.Languages).count) -eq 1) {$FullNameFormat = $FullNameFormat.replace(' en-US','')}
 
             if (!($Item.Name -eq $FullNameFormat)) {
-                #===================================================================================================
+                #=================================================
                 #Write-Verbose '19.1.1 Object Properties'
-                #===================================================================================================
+                #=================================================
                 $ObjectProperties = @{
                     
                     FullNameFormat      = $FullNameFormat
@@ -5055,9 +5187,9 @@ function Rename-OSMedia {
 
         }
 
-        #===================================================================================================
+        #=================================================
         #Write-Verbose '19.1.3 Output'
-        #===================================================================================================
+        #=================================================
         $RenameOSMedia = $RenameOSMedia | Select-Object FullNameFormat,Name,FullName | Out-GridView -PassThru -Title 'Rename-OSMedia: Select one or more OSMedia to Rename and press OK'
         foreach ($Item in $RenameOSMedia){
             Write-Warning "Renaming $($Item.FullName) to $($Item.FullNameFormat)"
@@ -5074,18 +5206,18 @@ function Repair-OSBuildTask {
     [CmdletBinding()]
     param ()
     BEGIN {
-        #===================================================================================================
+        #=================================================
         #   Header
-        #===================================================================================================
+        #=================================================
         #   Write-Host '========================================================================================' -ForegroundColor DarkGray
         #   Write-Host -ForegroundColor Green "$($MyInvocation.MyCommand.Name) BEGIN"
-        #===================================================================================================
+        #=================================================
         #   Get-OSDBuilder
-        #===================================================================================================
+        #=================================================
         Get-OSDBuilder -CreatePaths -HideDetails
-        #===================================================================================================
+        #=================================================
         Write-Verbose '19.1.6 Gather All OSBuildTask'
-        #===================================================================================================
+        #=================================================
         $OSBuildTask = @()
         $OSBuildTask = Get-OSBuildTask | Where-Object {$null -eq $_.OSMGuid}
     }
@@ -5098,9 +5230,9 @@ function Repair-OSBuildTask {
             $TaskFile = Get-Item -Path "$($Item.FullName)" | Select-Object -Property *
             Write-Warning "Repair Required: $($Item.FullName)"
 
-            #===================================================================================================
+            #=================================================
             Write-Verbose 'Read Task'
-            #===================================================================================================
+            #=================================================
             $Task = @()
             $Task = Get-Content "$($Item.FullName)" | ConvertFrom-Json
 
@@ -5131,9 +5263,9 @@ function Repair-OSBuildTask {
 
             Write-Host "Selected $($OSMedia.Name)"
 
-            #===================================================================================================
+            #=================================================
             Write-Verbose '19.1.5 Create OSBuild Task'
-            #===================================================================================================
+            #=================================================
             $NewTask = [ordered]@{
                 "TaskType" = [string]"OSBuild";
                 "TaskName" = [string]$Task.TaskName;
@@ -5197,9 +5329,9 @@ function Repair-OSBuildTask {
                 "LanguagePack" = [string[]]$Task.AddLanguagePack;
             }
 			
-            #===================================================================================================
+            #=================================================
             Write-Verbose '19.1.7 Create Backup'
-            #===================================================================================================
+            #=================================================
             if (!(Test-Path "$($TaskFile.Directory)\Repair")) {
                 New-Item -Path "$($TaskFile.Directory)\Repair"-ItemType Directory -Force | Out-Null
             }
@@ -5209,9 +5341,9 @@ function Repair-OSBuildTask {
                 Copy-Item -Path "$($TaskFile.FullName)" -Destination "$($TaskFile.Directory)\Repair\$($TaskFile.Name)" -Force
             }
     
-            #===================================================================================================
+            #=================================================
             Write-Verbose '19.1.1 New-OSBuildTask Complete'
-            #===================================================================================================
+            #=================================================
             $NewTask | ConvertTo-Json | Out-File "$($Item.FullName)" -Encoding ascii
             Write-Host "Update Complete: $($Task.TaskName)"
             Write-Host '========================================================================================' -ForegroundColor DarkGray
@@ -5227,18 +5359,18 @@ function Repair-PEBuildTask {
     [CmdletBinding()]
     param ()
     Begin {
-        #===================================================================================================
+        #=================================================
         #   Header
-        #===================================================================================================
+        #=================================================
         #   Write-Host '========================================================================================' -ForegroundColor DarkGray
         #   Write-Host -ForegroundColor Green "$($MyInvocation.MyCommand.Name) BEGIN"
-        #===================================================================================================
+        #=================================================
         #   Get-OSDBuilder
-        #===================================================================================================
+        #=================================================
         Get-OSDBuilder -CreatePaths -HideDetails
-        #===================================================================================================
+        #=================================================
         Write-Verbose '19.1.6 Gather All PEBuildTask'
-        #===================================================================================================
+        #=================================================
         $PEBuildTask = @()
         $PEBuildTask = Get-PEBuildTask | Where-Object {$null -eq $_.OSMGuid}
     }
@@ -5251,9 +5383,9 @@ function Repair-PEBuildTask {
             $TaskFile = Get-Item -Path "$($Item.FullName)" | Select-Object -Property *
             Write-Warning "Repair Required: $($Item.FullName)"
 
-            #===================================================================================================
+            #=================================================
             Write-Verbose 'Read Task'
-            #===================================================================================================
+            #=================================================
             $Task = @()
             $Task = Get-Content "$($Item.FullName)" | ConvertFrom-Json
 
@@ -5284,9 +5416,9 @@ function Repair-PEBuildTask {
 
             Write-Host "Selected $($OSMedia.Name)"
 
-            #===================================================================================================
+            #=================================================
             Write-Verbose '19.1.5 Create PEBuild Task'
-            #===================================================================================================
+            #=================================================
             $NewTask = [ordered]@{
                 "TaskType" = 'PEBuild'
                 "TaskName" = [string]$Task.TaskName;
@@ -5320,9 +5452,9 @@ function Repair-PEBuildTask {
                 "WinPEADK" = [string[]]$Task.WinPEAddADK;
             }
     
-            #===================================================================================================
+            #=================================================
             Write-Verbose '19.1.7 Create Backup'
-            #===================================================================================================
+            #=================================================
             if (!(Test-Path "$($TaskFile.Directory)\Repair")) {
                 New-Item -Path "$($TaskFile.Directory)\Repair"-ItemType Directory -Force | Out-Null
             }
@@ -5332,9 +5464,9 @@ function Repair-PEBuildTask {
                 Copy-Item -Path "$($TaskFile.FullName)" -Destination "$($TaskFile.Directory)\Repair\$($TaskFile.Name)" -Force
             }
             
-            #===================================================================================================
+            #=================================================
             Write-Verbose '19.1.7 New-PEBuildTask Complete'
-            #===================================================================================================
+            #=================================================
             $NewTask | ConvertTo-Json | Out-File "$($Item.FullName)" -Encoding ascii
             Write-Host "Update Complete: $($Task.TaskName)"
             Write-Host '========================================================================================' -ForegroundColor DarkGray
@@ -5351,14 +5483,14 @@ function Save-AutoExtraFilesOS {
     param (
         [string]$OSMediaPath
     )
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "OS: Backup Auto Extra Files to $OSMediaPath\WinPE\AutoExtraFiles"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     $AEFLog = "$OSMediaPath\info\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Save-AutoExtraFilesOS.log"
     Write-Verbose "$AEFLog"
 
@@ -5421,14 +5553,14 @@ function Save-InventoryOS {
     param (
         [string]$OSMediaPath
     )
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "OS: Export Inventory to $OSMediaPath"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     Write-Verbose 'Save-InventoryOS'
     Write-Verbose "OSMediaPath: $OSMediaPath"
 
@@ -5493,12 +5625,12 @@ function Save-InventoryPE {
     param (
         [string]$OSMediaPath
     )
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "WinPE: Export WIM Inventory to $OSMediaPath\WinPE\info"
-    #===================================================================================================
+    #=================================================
     $GetWindowsImage = @()
     Write-Verbose "$OSMediaPath\WinPE\info\Get-WindowsImage-Boot.txt"
     $GetWindowsImage = Get-WindowsImage -ImagePath "$OSMediaPath\WinPE\boot.wim"
@@ -5510,9 +5642,9 @@ function Save-InventoryPE {
     $GetWindowsImage | ConvertTo-Json | Out-File "$OSMediaPath\WinPE\info\json\Get-WindowsImage-Boot.json"
     $GetWindowsImage | ConvertTo-Json | Out-File "$OSMediaPath\WinPE\info\json\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Get-WindowsImage-Boot.json"
 
-    #===================================================================================================
+    #=================================================
     Write-Verbose 'Get-WindowsImage WinPE'
-    #===================================================================================================
+    #=================================================
     $GetWindowsImage = @()
     Write-Verbose "$OSMediaPath\WinPE\info\Get-WindowsImage-WinPE.txt"
     $GetWindowsImage = Get-WindowsImage -ImagePath "$OSMediaPath\WinPE\winpe.wim" -Index 1 | Select-Object -Property *
@@ -5524,9 +5656,9 @@ function Save-InventoryPE {
     $GetWindowsImage | ConvertTo-Json | Out-File "$OSMediaPath\WinPE\info\json\Get-WindowsImage-WinPE.json"
     $GetWindowsImage | ConvertTo-Json | Out-File "$OSMediaPath\WinPE\info\json\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Get-WindowsImage-WinPE.json"
 
-    #===================================================================================================
+    #=================================================
     Write-Verbose 'Get-WindowsImage WinRE'
-    #===================================================================================================
+    #=================================================
     $GetWindowsImage = @()
     Write-Verbose "$OSMediaPath\WinPE\info\Get-WindowsImage-WinRE.txt"
     $GetWindowsImage = Get-WindowsImage -ImagePath "$OSMediaPath\WinPE\winre.wim" -Index 1 | Select-Object -Property *
@@ -5538,9 +5670,9 @@ function Save-InventoryPE {
     $GetWindowsImage | ConvertTo-Json | Out-File "$OSMediaPath\WinPE\info\json\Get-WindowsImage-WinRE.json"
     $GetWindowsImage | ConvertTo-Json | Out-File "$OSMediaPath\WinPE\info\json\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Get-WindowsImage-WinRE.json"
 
-    #===================================================================================================
+    #=================================================
     Write-Verbose 'Get-WindowsImage Setup'
-    #===================================================================================================
+    #=================================================
     $GetWindowsImage = @()
     Write-Verbose "$OSMediaPath\WinPE\info\Get-WindowsImage-WinSE.txt"
     $GetWindowsImage = Get-WindowsImage -ImagePath "$OSMediaPath\WinPE\winse.wim" -Index 1 | Select-Object -Property *
@@ -5561,13 +5693,13 @@ function Save-OSMediaVariables {
 function Save-OSMediaWindowsImageContent {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "OS: Save Windows Image Content to $OSMediaPathInfo\Get-WindowsImageContent.txt"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     Get-WindowsImageContent -ImagePath $OSMediaPathWindowsImage -Index 1 | Out-File "$OSMediaPathInfo\Get-WindowsImageContent.txt"
 }
 function Save-PackageInventoryPE {
@@ -5575,12 +5707,12 @@ function Save-PackageInventoryPE {
     param (
         [string]$OSMediaPath
     )
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "WinPE: Export WinPE Package Inventory to $OSMediaPath\WinPE\info"
-    #===================================================================================================
+    #=================================================
     $GetWindowsPackage = @()
     Write-Verbose "$OSMediaPath\WinPE\info\Get-WindowsPackage-WinPE.txt"
     $GetWindowsPackage = Get-WindowsPackage -Path "$MountWinPE"
@@ -5591,9 +5723,9 @@ function Save-PackageInventoryPE {
     $GetWindowsPackage | ConvertTo-Json | Out-File "$OSMediaPath\WinPE\info\json\Get-WindowsPackage-WinPE.json"
     $GetWindowsPackage | ConvertTo-Json | Out-File "$OSMediaPath\WinPE\info\json\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Get-WindowsPackage-WinPE.json"
 
-    #===================================================================================================
+    #=================================================
     Write-Verbose 'Get-WindowsPackage WinRE'
-    #===================================================================================================
+    #=================================================
     $GetWindowsPackage = @()
     Write-Verbose "$OSMediaPath\WinPE\info\Get-WindowsPackage-WinRE.txt"
     $GetWindowsPackage = Get-WindowsPackage -Path "$MountWinRE"
@@ -5604,9 +5736,9 @@ function Save-PackageInventoryPE {
     $GetWindowsPackage | ConvertTo-Json | Out-File "$OSMediaPath\WinPE\info\json\Get-WindowsPackage-WinRE.json"
     $GetWindowsPackage | ConvertTo-Json | Out-File "$OSMediaPath\WinPE\info\json\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Get-WindowsPackage-WinRE.json"
 
-    #===================================================================================================
+    #=================================================
     Write-Verbose 'Get-WindowsPackage WinSE'
-    #===================================================================================================
+    #=================================================
     $GetWindowsPackage = @()
     Write-Verbose "$OSMediaPath\WinPE\info\Get-WindowsPackage-WinSE.txt"
     $GetWindowsPackage = Get-WindowsPackage -Path "$MountWinSE"
@@ -5633,12 +5765,11 @@ function Save-SessionsXmlOS {
     param (
         [string]$OSMediaPath
     )
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
-    #Write-Host -ForegroundColor Green "OS: OSDBuilder Function Save-SessionsXmlOS"
-    #Write-Host -ForegroundColor Yellow "21.5.21 - For some reason the latest Windows Updates are not reporting properly in Sessions.xml"
+    Write-Host -ForegroundColor Green "OS: Exporting Sessions.xml Patch Inventory"
 
     if (Test-Path "$MountDirectory\Windows\Servicing\Sessions\Sessions.xml") {
         [xml]$SessionsXML = Get-Content -Path "$MountDirectory\Windows\Servicing\Sessions\Sessions.xml"
@@ -5655,28 +5786,28 @@ function Save-SessionsXmlOS {
         }
         $Sessions = $Sessions | Where-Object {$_.Id -like "Package*"}
         $Sessions = $Sessions | Select-Object -Property Id, KBNumber, TargetState, Client, Status, Complete | Sort-Object Complete -Descending
-        #===================================================================================================
+        #=================================================
         #   Export Sessions
-        #===================================================================================================
-        Write-Host -ForegroundColor DarkGray "Source: $MountDirectory\Windows\Servicing\Sessions\Sessions.xml"
-        Write-Host -ForegroundColor DarkGray "Destination: $OSMediaPath\info\Sessions.xml"
+        #=================================================
+        Write-Host -ForegroundColor DarkGray "                  Source:      $MountDirectory\Windows\Servicing\Sessions\Sessions.xml"
+        Write-Host -ForegroundColor DarkGray "                  Destination: $OSMediaPath\info\Sessions.xml"
         Copy-Item "$MountDirectory\Windows\Servicing\Sessions\Sessions.xml" "$OSMediaPath\info\Sessions.xml" -Force | Out-Null
 
-        Write-Host -ForegroundColor DarkGray "Export: $OSMediaPath\Sessions.txt"
+        Write-Host -ForegroundColor DarkGray "                  Export:      $OSMediaPath\Sessions.txt"
         $Sessions | Out-File "$OSMediaPath\Sessions.txt"
         $Sessions | Out-File "$OSMediaPath\info\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Sessions.txt"
 
-        Write-Host -ForegroundColor DarkGray "Export: $OSMediaPath\info\xml\Sessions.xml"
+        Write-Host -ForegroundColor DarkGray "                  Export:      $OSMediaPath\info\xml\Sessions.xml"
         $Sessions | Export-Clixml -Path "$OSMediaPath\info\xml\Sessions.xml"
         $Sessions | Export-Clixml -Path "$OSMediaPath\info\xml\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Sessions.xml"
 
-        Write-Host -ForegroundColor DarkGray "Export: $OSMediaPath\info\json\Sessions.json"
+        Write-Host -ForegroundColor DarkGray "                  Export:      $OSMediaPath\info\json\Sessions.json"
         $Sessions | ConvertTo-Json | Out-File "$OSMediaPath\info\json\Sessions.json"
         $Sessions | ConvertTo-Json | Out-File "$OSMediaPath\info\json\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Sessions.json"
     }
-    #===================================================================================================
+    #=================================================
     #   Remove Old Version
-    #===================================================================================================
+    #=================================================
     if (Test-Path "$OSMediaPath\Sessions.xml") {
         Remove-Item "$OSMediaPath\Sessions.xml" -Force | Out-Null
     }
@@ -5692,14 +5823,14 @@ function Save-WimsPE {
     param (
         [string]$OSMediaPath
     )
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "WinPE: Export WIMs to $OSMediaPath\WinPE"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     Write-Verbose "OSMediaPath: $OSMediaPath"
 
     Write-Verbose "$OSMediaPath\WinPE\boot.wim"
@@ -5723,26 +5854,26 @@ function Save-WimsPE {
 function Save-WindowsImageContentOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "OS: Export Image Content to $Info\Get-WindowsImageContent.txt"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     Get-WindowsImageContent -ImagePath "$OS\Sources\install.wim" -Index 1 | Out-File "$Info\Get-WindowsImageContent.txt"
 }
 function Save-WindowsImageContentPE {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "Export Image Content to $Info\Get-WindowsImageContent.txt"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     Get-WindowsImageContent -ImagePath "$OS\Sources\boot.wim" -Index 1 | Out-File "$Info\Get-WindowsImageContent.txt"
 }
 function Set-LanguageSettingsOS {
@@ -5750,9 +5881,9 @@ function Set-LanguageSettingsOS {
     param ()
     if ($ScriptName -ne 'New-OSBuild') {Return}
     if ($OSMajorVersion -ne 10) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "OS: Language Settings"
 
@@ -5808,13 +5939,13 @@ function Set-PEBuildScratchSpace {
         [string]$MountDirectory,
         [string]$ScratchSpace
     )
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: Set-ScratchSpace $ScratchSpace"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     Try {
         Dism /Image:"$MountDirectory" /Set-ScratchSpace:$ScratchSpace /LogPath:"$Info\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Set-PEBuildScratchSpace.log" | Out-Null
     }
@@ -5828,13 +5959,13 @@ function Set-PEBuildTargetPath {
     param (
         [string]$MountDirectory
     )
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "WinPE: Set-TargetPath X:\"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     Try {
         Dism /Image:"$MountDirectory" /Set-TargetPath:"X:\" /LogPath:"$Info\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Set-PEBuildTargetPath.log" | Out-Null
     }
@@ -5846,14 +5977,14 @@ function Set-PEBuildTargetPath {
 function Set-WinREWimOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "OS: Replace $MountDirectory\Windows\System32\Recovery\winre.wim"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     if (Test-Path "$MountDirectory\Windows\System32\Recovery\winre.wim") {
         Remove-Item -Path "$MountDirectory\Windows\System32\Recovery\winre.wim" -Force
     }
@@ -5872,13 +6003,13 @@ function Set-WinREWimOS {
 function Show-ActionTime {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Show-ActionTime
-    #===================================================================================================
+    #=================================================
     $Global:OSDStartTime = Get-Date
     Write-Host -ForegroundColor White "$(($Global:OSDStartTime).ToString('yyyy-MM-dd-HHmmss')) " -NoNewline
     #Write-Host -ForegroundColor DarkGray "[$(($Global:OSDStartTime).ToString('yyyy-MM-dd-HHmmss'))] " -NoNewline
-    #===================================================================================================
+    #=================================================
 }
 function Show-GetWindowsImage {
     [CmdletBinding()]
@@ -5909,9 +6040,9 @@ function Show-GetWindowsImage {
 function Show-MediaImageInfoOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Show-MediaImageInfoOS
-    #===================================================================================================
+    #=================================================
     Write-Host '========================================================================================' -ForegroundColor DarkGray
     Write-Host -ForegroundColor Green "Source OSMedia Windows Image Information"
     Write-Host "-OSMedia Path:              $OSMediaPath" -ForegroundColor Yellow
@@ -5986,7 +6117,7 @@ function Show-OSDBuilderHomeTips {
     Write-Host 'OSDBuilder -Download OSMediaUpdates     ' -ForegroundColor DarkGray -NoNewline
     Write-Host 'Download missing Microsoft Updates for OSMedia' -ForegroundColor DarkGray
     Write-Host 'OSDBuilder -Download FeatureUpdates     ' -ForegroundColor DarkGray -NoNewline
-    Write-Host 'Download Windows 10 Feature Updates for Import' -ForegroundColor DarkGray
+    Write-Host 'Download Windows 10 and 11 Feature Updates for Import' -ForegroundColor DarkGray
     Write-Host 'OSDBuilder -Download OneDrive           ' -ForegroundColor DarkGray -NoNewline
     Write-Host 'Download the latest OneDriveSetup.exe' -ForegroundColor DarkGray
     Write-Host 'OSDBuilder -Download OneDriveEnterprise ' -ForegroundColor DarkGray -NoNewline
@@ -6017,9 +6148,9 @@ function Show-SkipUpdatesInfo {
 function Show-TaskInfo {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     Write-Verbose 'Show-TaskInfo'
-    #===================================================================================================
+    #=================================================
     Write-Host '========================================================================================' -ForegroundColor DarkGray
     Write-Host "OSBuild Task Information" -ForegroundColor Green
     Write-Host "-TaskName:                  $TaskName"
@@ -6233,9 +6364,9 @@ function Show-TaskInfo {
 function Show-WorkingInfoOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     Write-Verbose '19.1.1 Working Information'
-    #===================================================================================================
+    #=================================================
     Write-Host '========================================================================================' -ForegroundColor DarkGray
     Write-Host -ForegroundColor Green "Working Information"
     Write-Host "-WorkingName:               $WorkingName" -ForegroundColor Yellow
@@ -6251,25 +6382,25 @@ function Update-AdobeOS {
     param (
         [switch]$Force
     )
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($SkipUpdates) {Return}
     if ($SkipUpdatesOS) {Return}
     if ($OSMajorVersion -ne 10) {Return}
     if ($null -eq $OSDUpdateAdobeSU) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     if ($Force.IsPresent) {
         Write-Host -ForegroundColor Green "OS: (ASU) Adobe Flash Player Security Update (Forced)"
     } else {
         Write-Host -ForegroundColor Green "OS: (ASU) Adobe Flash Player Security Update"
     }
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     foreach ($Update in $OSDUpdateAdobeSU) {
         $UpdateASU = $(Get-ChildItem -Path $SetOSDBuilderPathUpdates -File -Recurse | Where-Object {$_.Name -match $(Split-Path $Update.OriginUri -Leaf)}).FullName | Select-Object -First 1
 
@@ -6303,25 +6434,25 @@ function Update-ComponentOS {
     param (
         [switch]$Force
     )
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($SkipUpdates) {Return}
     if ($SkipUpdatesDUC) {Return}
     if ($SkipUpdatesOS) {Return}
     if ($null -eq $OSDUpdateComponentDU) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     if ($Force.IsPresent) {
         Write-Host -ForegroundColor Green "OS: Component Update (Forced)"
     } else {
         Write-Host -ForegroundColor Green "OS: Component Update"
     }
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     foreach ($Update in $OSDUpdateComponentDU) {
         $UpdateComp = $(Get-ChildItem -Path $SetOSDBuilderPathUpdates -File -Recurse | Where-Object {$_.Name -match $(Split-Path $Update.OriginUri -Leaf)}).FullName | Select-Object -First 1
         if ($null -eq $UpdateComp) {Write-Warning "Update-ComponentOS is Null"; Continue}
@@ -6354,26 +6485,26 @@ function Update-CumulativeOS {
     param (
         [switch]$Force
     )
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($SkipUpdates) {Return}
     if ($SkipUpdatesOS) {Return}
     if ($SkipUpdatesOSLCU) {Return}
     if ($OSMajorVersion -ne 10) {Return}
     if ($null -eq $OSDUpdateLCU) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     if ($Force.IsPresent) {
         Write-Host -ForegroundColor Green "OS: (LCU) Latest Cumulative Update (Forced)"
     } else {
         Write-Host -ForegroundColor Green "OS: (LCU) Latest Cumulative Update"
     }
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     foreach ($Update in $OSDUpdateLCU) {
         $UpdateLCU = $(Get-ChildItem -Path $SetOSDBuilderPathUpdates -File -Recurse | Where-Object {$_.Name -match $(Split-Path $Update.OriginUri -Leaf)}).FullName | Select-Object -First 1
         if ($null -eq $UpdateLCU) {Write-Warning "Update-CumulativeOS is Null"; Continue}
@@ -6416,24 +6547,26 @@ function Update-CumulativePE {
     param (
         [switch]$Force
     )
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($SkipUpdates) {Return}
     if ($SkipUpdatesPE) {Return}
     if ($SkipUpdatesPELCU) {Return}
     if ($null -eq $OSDUpdateLCU) {Return}
-    #===================================================================================================
+    #=================================================
     #   Update WinPE
-    #===================================================================================================
+    #=================================================
     if ($OSMajorVersion -ne 10) {
         $OSDUpdateLCU = $OSDUpdateLCU | Where-Object {$_.OSDWinPE -eq $true}
         if ($Force.IsPresent) {Return}
     }
     Show-ActionTime
     Write-Host -ForegroundColor Green "WinPE: (LCU) Latest Cumulative Update"
+    Write-Warning "Skipping WinPE LCU Update for this version of Windows"
+    Return
     if ($OSBuild -ge 18362) {
-        Write-Warning "Skipping Update for this version of Windows"
+        Write-Warning "Skipping WinPE LCU Update for this version of Windows"
         Return
     }
 
@@ -6479,9 +6612,9 @@ function Update-CumulativePE {
             }
         }
     }
-    #===================================================================================================
+    #=================================================
     #   Update WinRE
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "WinRE: (LCU) Latest Cumulative Update"
     foreach ($Update in $OSDUpdateLCU) {
@@ -6521,9 +6654,9 @@ function Update-CumulativePE {
     }
 
     if ($SkipUpdatesWinSE) {Return}
-    #===================================================================================================
+    #=================================================
     #   Update WinSE
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "WinSE: (LCU) Latest Cumulative Update"
     
@@ -6569,25 +6702,25 @@ function Update-DotNetOS {
     param (
         [switch]$Force
     )
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($SkipUpdates) {Return}
     if ($SkipUpdatesOS) {Return}
     if ($OSMajorVersion -ne 10) {Return}
     if ($null -eq $OSDUpdateDotNet) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     if ($Force.IsPresent) {
         Write-Host -ForegroundColor Green "OS: (NetCU) DotNet Framework Cumulative Update (Forced)"
     } else {
         Write-Host -ForegroundColor Green "OS: (NetCU) DotNet Framework Cumulative Update"
     }
-    #===================================================================================================
+    #=================================================
     #   Execute DotNet
-    #===================================================================================================
+    #=================================================
     $OSDUpdateDotNet = $OSDUpdateDotNet | Sort-Object FileKBNumber
     foreach ($Update in $OSDUpdateDotNet | Where-Object {$_.UpdateGroup -eq 'DotNet'}) {
         $UpdateNetCU = $(Get-ChildItem -Path $SetOSDBuilderPathUpdates -File -Recurse | Where-Object {$_.Name -match $(Split-Path $Update.OriginUri -Leaf)}).FullName | Select-Object -First 1
@@ -6620,9 +6753,9 @@ function Update-DotNetOS {
             Write-Verbose "$CurrentLog" -Verbose
         }
     }
-    #===================================================================================================
+    #=================================================
     #   Execute DotNetCU
-    #===================================================================================================
+    #=================================================
     foreach ($Update in $OSDUpdateDotNet | Where-Object {$_.UpdateGroup -eq 'DotNetCU'}) {
         $UpdateNetCU = $(Get-ChildItem -Path $SetOSDBuilderPathUpdates -File -Recurse | Where-Object {$_.Name -match $(Split-Path $Update.OriginUri -Leaf)}).FullName | Select-Object -First 1
         if ($null -eq $UpdateNetCU) {Write-Warning "Update-DotNetOS is Null"; Continue}
@@ -6662,9 +6795,9 @@ function Update-LangIniMEDIA {
     param (
         [string]$OSMediaPath
     )
-    #===================================================================================================
+    #=================================================
     #   WinSE.wim
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "WinSE: Updating WinSE.wim with updated Lang.ini"
     $MountWinSELangIni = Join-Path $SetOSDBuilderPathMount "winselangini$((Get-Date).ToString('hhmmss'))"
     if (!(Test-Path "$MountWinSELangIni")) {New-Item "$MountWinSELangIni" -ItemType Directory -Force | Out-Null}
@@ -6682,9 +6815,9 @@ function Update-LangIniMEDIA {
         Dismount-WindowsImage -Path "$MountWinSELangIni" -Save -LogPath "$CurrentLog" | Out-Null
     }
     if (Test-Path "$MountWinSELangIni") {Remove-Item -Path "$MountWinSELangIni" -Force -Recurse | Out-Null}
-    #===================================================================================================
+    #=================================================
     #   Boot.wim
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "Boot: Updating Boot.wim (Index 2 - Windows Setup Environment) with updated Lang.ini"
     $MountBootLangIni = Join-Path $SetOSDBuilderPathMount "bootlangini$((Get-Date).ToString('hhmmss'))"
     if (!(Test-Path "$MountBootLangIni")) {New-Item "$MountBootLangIni" -ItemType Directory -Force | Out-Null}
@@ -6706,21 +6839,21 @@ function Update-ModuleOSDBuilder {
     param (
         [switch]$CurrentUser
     )
-    #===================================================================================================
+    #=================================================
     #   Uninstall-Module
-    #===================================================================================================
+    #=================================================
     Write-Warning "Uninstall-Module -Name OSDBuilder -AllVersions -Force"
     try {Uninstall-Module -Name OSDBuilder -AllVersions -Force -ErrorAction SilentlyContinue}
     catch {}
-    #===================================================================================================
+    #=================================================
     #   Remove-Module
-    #===================================================================================================
+    #=================================================
     Write-Warning "Remove-Module -Name OSDBuilder -Force"
     try {Remove-Module -Name OSDBuilder -Force -ErrorAction SilentlyContinue}
     catch {}
-    #===================================================================================================
+    #=================================================
     #   Install-Module
-    #===================================================================================================
+    #=================================================
     if ($CurrentUser.IsPresent) {
         Write-Warning "Install-Module -Name OSDBuilder -Scope CurrentUser -Force"
         try {Install-Module -Name OSDBuilder -Scope CurrentUser -Force -ErrorAction SilentlyContinue}
@@ -6730,48 +6863,36 @@ function Update-ModuleOSDBuilder {
         try {Install-Module -Name OSDBuilder -Force -ErrorAction SilentlyContinue}
         catch {}
     }
-    #===================================================================================================
-    #   OSDSUS Update-Module
-    #===================================================================================================
-    Write-Warning "Update-Module -Name -Force OSDSUS"
-    try {Update-Module -Name OSDSUS -Force -ErrorAction SilentlyContinue}
-    catch {}
-    #===================================================================================================
-    #   OSDSUS Import-Module
-    #===================================================================================================
-    Write-Warning "Import-Module -Name OSDSUS -Force"
-    try {Import-Module -Name OSDSUS -Force -ErrorAction SilentlyContinue}
-    catch {}
-    #===================================================================================================
+    #=================================================
     #   Import-Module
-    #===================================================================================================
+    #=================================================
     Write-Warning "Import-Module -Name OSDBuilder -Force"
     try {Import-Module -Name OSDBuilder -Force -ErrorAction SilentlyContinue}
     catch {}
-    #===================================================================================================
+    #=================================================
     #   Close PowerShell
-    #===================================================================================================
+    #=================================================
     Write-Warning "Close all open PowerShell sessions before using OSDBuilder"
 }
 function Update-OptionalOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'New-OSBuild') {Return}
     if ($SkipUpdates) {Return}
     if ($SkipUpdatesOS) {Return}
     if ($OSMajorVersion -ne 10) {Return}
     if ($null -eq $OSDUpdateOptional) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "OS: Optional Updates"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     foreach ($Update in $OSDUpdateOptional) {
         $UpdateOptional = $(Get-ChildItem -Path $SetOSDBuilderPathUpdates -File -Recurse | Where-Object {$_.Name -match $(Split-Path $Update.OriginUri -Leaf)}).FullName | Select-Object -First 1
         if ($null -eq $UpdateOptional) {Write-Warning "Update-OptionalOS is Null"; Continue}
@@ -6803,26 +6924,26 @@ function Update-ServicingStackOS {
     param (
         [switch]$Force
     )
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($SkipUpdates) {Return}
     if ($SkipUpdatesOS) {Return}
     if ($SkipUpdatesOSSSU) {Return}
     if ($OSMajorVersion -ne 10) {Return}
     if ($null -eq $OSDUpdateSSU) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     if ($Force.IsPresent) {
         Write-Host -ForegroundColor Green "OS: (SSU) Servicing Stack Update (Forced)"
     } else {
         Write-Host -ForegroundColor Green "OS: (SSU) Servicing Stack Update"
     }
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     foreach ($Update in $OSDUpdateSSU) {
         $UpdateSSU = $(Get-ChildItem -Path $SetOSDBuilderPathUpdates -File -Recurse | Where-Object {$_.Name -match $(Split-Path $Update.OriginUri -Leaf)}).FullName | Select-Object -First 1
         if ($null -eq $UpdateSSU) {Write-Warning "Update-ServicingStackOS is Null"; Continue}
@@ -6855,25 +6976,27 @@ function Update-ServicingStackPE {
     param (
         [switch]$Force
     )
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($SkipUpdates) {Return}
     if ($SkipUpdatesPE) {Return}
     if ($SkipUpdatesPESSU) {Return}
     #if ($OSMajorVersion -ne 10) {Return}
     if ($null -eq $OSDUpdateSSU) {Return}
-    #===================================================================================================
+    #=================================================
     #   Update WinPE
-    #===================================================================================================
+    #=================================================
     if ($OSMajorVersion -ne 10) {
         $OSDUpdateSSU = $OSDUpdateSSU | Where-Object {$_.OSDWinPE -eq $true}
         if ($Force.IsPresent) {Return}
     }
     Show-ActionTime
     Write-Host -ForegroundColor Green "WinPE: (SSU) Servicing Stack Update"
+    Write-Warning "Skipping WinPE SSU Update for this version of Windows"
+    Return
     if ($OSBuild -ge 18362) {
-        Write-Warning "Skipping update for this version of Windows"
+        Write-Warning "Skipping WinPE SSU Update for this version of Windows"
         Return
     }
 
@@ -6903,9 +7026,9 @@ function Update-ServicingStackPE {
             Write-Verbose "$CurrentLog" -Verbose
         }
     }
-    #===================================================================================================
+    #=================================================
     #   Update WinRE
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "WinRE: (SSU) Servicing Stack Update"
     foreach ($Update in $OSDUpdateSSU) {
@@ -6935,9 +7058,9 @@ function Update-ServicingStackPE {
             if ($ErrorMessage -like "*0x800f081e*") {Write-Warning "Update not applicable to this Operating System"}
         }
     }
-    #===================================================================================================
+    #=================================================
     #   Update WinSE
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "WinSE: (SSU) Servicing Stack Update"
     foreach ($Update in $OSDUpdateSSU) {
@@ -6970,25 +7093,25 @@ function Update-ServicingStackPE {
 function Update-SetupDUMEDIA {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Changelog
-    #===================================================================================================
+    #=================================================
     #19.10.14 Resolved issue with color for Update FileName
     #21.3.8 Apply update to WinSE
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($SkipUpdates) {Return}
     if ($SkipSetupDU) {Return}
     if ($null -eq $OSDUpdateSetupDU) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "MEDIA: (SetupDU) Windows Setup Dynamic Update"
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     foreach ($Update in $OSDUpdateSetupDU) {
         $UpdateSetupDU = $(Get-ChildItem -Path $SetOSDBuilderPathUpdates -File -Recurse | Where-Object {$_.Name -match $(Split-Path $Update.OriginUri -Leaf)}).FullName | Select-Object -First 1
         if ($null -eq $UpdateSetupDU) {Continue}
@@ -7023,22 +7146,22 @@ function Update-SourcesPE {
     param (
         [string]$OSMediaPath
     )
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($SkipUpdates) {Return}
     if ($SkipUpdatesPE) {Return}
     if ($SkipUpdatesOS) {Return}
     if ($ReleaseId -ge 1903) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "MEDIA: Update Media Sources with WinSE.wim"
-    #===================================================================================================
+    #=================================================
     #   Warning
-    #===================================================================================================
+    #=================================================
     if ($OSBuild -ge 18362) {
-        Write-Warning "Skipping Update for this version of Windows"
+        Write-Warning "Skipping WinPE Update for this version of Windows"
         Return
     }
     if ($ReleaseId -ge 1903) {
@@ -7047,34 +7170,34 @@ function Update-SourcesPE {
         Write-Warning "you should Update-OSMedia from Windows 10 1903 18362.30"
         Return
     }
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     robocopy "$MountWinSE\sources" "$OSMediaPath\OS\sources" setup.exe /ndl /xo /xx /xl /b /np /ts /tee /r:0 /w:0 /Log+:"$OSMediaPath\info\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Robocopy-WinSE-MediaSources.log" | Out-Null
     robocopy "$MountWinSE\sources" "$OSMediaPath\OS\sources" setuphost.exe /ndl /xo /xx /xl /b /np /ts /tee /r:0 /w:0 /Log+:"$OSMediaPath\info\logs\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Robocopy-WinSE-MediaSources.log" | Out-Null
 }
 function Update-WindowsServer2012R2OS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'Update-OSMedia') {Return}
     if ($SkipUpdates) {Return}
     if ($OSMajorVersion -eq 10) {Return}
     if ($null -eq $OSDUpdateWinTwelveR2) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime
     Write-Host -ForegroundColor Green "OS: Windows Server 2012 R2 Updates"
     $SessionsXmlInstall = "$MountDirectory\Windows\Servicing\Sessions\Sessions.xml"
     if (Test-Path $SessionsXmlInstall) {
         [xml]$XmlDocument = Get-Content -Path $SessionsXmlInstall
     }
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     foreach ($Update in $OSDUpdateWinTwelveR2) {
         $UpdateTwelveR2 = $(Get-ChildItem -Path $SetOSDBuilderPathUpdates -File -Recurse | Where-Object {$_.Name -match $(Split-Path $Update.OriginUri -Leaf)}).FullName | Select-Object -First 1
         $UpdateTwelveR2 = $UpdateTwelveR2 | Select-Object -First 1
@@ -7139,24 +7262,24 @@ function Update-WindowsServer2012R2OS {
 function Update-WindowsSevenOS {
     [CmdletBinding()]
     param ()
-    #===================================================================================================
+    #=================================================
     #   Abort
-    #===================================================================================================
+    #=================================================
     if ($ScriptName -ne 'Update-OSMedia') {Return}
     if ($SkipUpdates) {Return}
     if ($OSMajorVersion -eq 10) {Return}
     if ($null -eq $OSDUpdateWinSeven) {Return}
-    #===================================================================================================
+    #=================================================
     #   Header
-    #===================================================================================================
+    #=================================================
     Show-ActionTime; Write-Host -ForegroundColor Green "OS: Windows 7 Updates"
     $SessionsXmlInstall = "$MountDirectory\Windows\Servicing\Sessions\Sessions.xml"
     if (Test-Path $SessionsXmlInstall) {
         [xml]$XmlDocument = Get-Content -Path $SessionsXmlInstall
     }
-    #===================================================================================================
+    #=================================================
     #   Execute
-    #===================================================================================================
+    #=================================================
     foreach ($Update in $OSDUpdateWinSeven) {
         $UpdateSeven = $(Get-ChildItem -Path $SetOSDBuilderPathUpdates -File -Recurse | Where-Object {$_.Name -match $(Split-Path $Update.OriginUri -Leaf)}).FullName
         $UpdateSeven = $UpdateSeven | Select-Object -First 1

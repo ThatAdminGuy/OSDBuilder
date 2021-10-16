@@ -18,25 +18,25 @@ function New-OSBuildMultiLang {
     )
 
     Begin {
-        #===================================================================================================
+        #=================================================
         #   Header
-        #===================================================================================================
+        #=================================================
         #   Write-Host '========================================================================================' -ForegroundColor DarkGray
         #   Write-Host -ForegroundColor Green "$($MyInvocation.MyCommand.Name) BEGIN"
-        #===================================================================================================
+        #=================================================
         #   Get-OSDBuilder
-        #===================================================================================================
+        #=================================================
         Get-OSDBuilder -CreatePaths -HideDetails
-        #===================================================================================================
+        #=================================================
         #   Get-OSDUpdates
-        #===================================================================================================
+        #=================================================
         $AllOSDUpdates = @()
         $AllOSDUpdates = Get-OSDUpdates
-        #===================================================================================================
+        #=================================================
         #   Block
-        #===================================================================================================
+        #=================================================
         Block-StandardUser
-        #===================================================================================================
+        #=================================================
     }
     
     PROCESS {
@@ -47,41 +47,41 @@ function New-OSBuildMultiLang {
         Write-Warning "Each Index will have a Language set as the System UI"
         Write-Warning "This process will take some time as the LCU will be reapplied"
         
-        #===================================================================================================
+        #=================================================
         #   Get OSBuilds with Multi Lang
-        #===================================================================================================
+        #=================================================
         $AllMyOSBuilds = @()
         $AllMyOSBuilds = Get-OSBuilds | Where-Object {($_.Languages).Count -gt 1} | Where-Object {$_.Name -notlike "*MultiLang"}
-        #===================================================================================================
+        #=================================================
         #   Select Source OSBuild
-        #===================================================================================================
+        #=================================================
         $SelectedOSBuild = @()
         $SelectedOSBuild = $AllMyOSBuilds | Out-GridView -Title "OSDBuilder: Select one or more OSBuilds to split and press OK (Cancel to Exit)" -PassThru
-        #===================================================================================================
+        #=================================================
         #   Build
-        #===================================================================================================
+        #=================================================
         foreach ($Media in $SelectedOSBuild) {
             $SourceFullName = "$($Media.FullName)"
             $BuildName = "$CustomName MultiLang"
             $DestinationFullName = "$SetOSDBuilderPathOSBuilds\$BuildName"
             $Info = "$DestinationFullName\info"
-            #===================================================================================================
+            #=================================================
             #   Copy Media
-            #===================================================================================================
+            #=================================================
             Write-Host "Copying Media to $DestinationFullName" -ForegroundColor Cyan
             if (Test-Path $DestinationFullName) {Write-Warning "Existing contents will be replaced in $DestinationFullName"}
             robocopy "$SourceFullName" "$DestinationFullName" *.* /mir /ndl /nfl /b /np /ts /tee /r:0 /w:0 /xf install.wim *.iso *.vhd *.vhdx
-            #===================================================================================================
+            #=================================================
             #   Process Languages
-            #===================================================================================================
+            #=================================================
             $LangMultiWindowsImage = Import-Clixml "$DestinationFullName\info\xml\Get-WindowsImage.xml"
             $LangMultiLanguages = $($LangMultiWindowsImage.Languages)
             [int]$LangMultiDefaultIndex = $($LangMultiWindowsImage.DefaultLanguageIndex)
 
             $LangMultiDefaultName = $LangMultiLanguages[$LangMultiDefaultIndex]
-            #===================================================================================================
+            #=================================================
             #
-            #===================================================================================================
+            #=================================================
             $RegValueCurrentBuild = $null
             if (Test-Path "$DestinationFullName\info\xml\CurrentVersion.xml") {
                 $RegKeyCurrentVersion = Import-Clixml -Path "$DestinationFullName\info\xml\CurrentVersion.xml"
@@ -91,75 +91,48 @@ function New-OSBuildMultiLang {
                 [string]$ReleaseId = ($RegKeyCurrentVersion).ReleaseId
                 if ($RegValueDisplayVersion) {$ReleaseId = $RegValueDisplayVersion}
             }
-            #===================================================================================================
+            #=================================================
             #   Operating System
-            #===================================================================================================
+            #=================================================
             $OSArchitecture         = $($LangMultiWindowsImage.Architecture)
             $OSBuild                = $($LangMultiWindowsImage.Build)
             $OSInstallationType     = $($LangMultiWindowsImage.InstallationType)
             $OSMajorVersion         = $($LangMultiWindowsImage.MajorVersion)
+            $WindowsImageMediaName  = $($LangMultiWindowsImage.MediaName)
             $OSVersion              = $($LangMultiWindowsImage.Version)
 
             if ($OSArchitecture -eq '0') {$OSArchitecture = 'x86'}
             if ($OSArchitecture -eq '6') {$OSArchitecture = 'ia64'}
             if ($OSArchitecture -eq '9') {$OSArchitecture = 'x64'}
             if ($OSArchitecture -eq '12') {$OSArchitecture = 'x64 ARM'}
-
+            #=================================================
+            #   Operating System
+            #=================================================
             $UpdateOS = ''
             if ($OSMajorVersion -eq 10) {
-                if ($OSInstallationType -notlike "*Server*") {$UpdateOS = 'Windows 10'}
-                #elseif ($OSMBuild -ge 17763) {$UpdateOS = 'Windows Server 2019'}
-                elseif ($OSMImageName -match '2016') {$UpdateOS = 'Windows Server 2016'}
-                elseif ($OSMImageName -match '2019') {$UpdateOS = 'Windows Server 2019'}
-                else {$UpdateOS = 'Windows Server'}
-            } elseif ($OSMajorVersion -eq 6) {
-                if ($OSInstallationType -like "*Server*") {
-                    if ($OSVersion -like "6.3*") {
-                        $UpdateOS = 'Windows Server 2012 R2'
-                    }
-                    elseif ($OSVersion -like "6.2*") {
-                        $UpdateOS = 'Windows Server 2012'
-                        Write-Warning "This Operating System is not supported"
-                        Return
-                    }
-                    elseif ($OSVersion -like "6.1*") {
-                        $UpdateOS = 'Windows Server 2008 R2'
-                        Write-Warning "This Operating System is not supported"
-                        Return
+                if ($OSInstallationType -match 'Server') {
+                    $UpdateOS = 'Windows Server'
+                }
+                else {
+                    if ($WindowsImageMediaName -match ' 11 ') {
+                        $UpdateOS = 'Windows 11'
                     }
                     else {
-                        Write-Warning "This Operating System is not supported"
-                    }
-                } else {
-                    if ($OSVersion -like "6.3*") {
-                        $UpdateOS = 'Windows 8.1'
-                        Write-Warning "This Operating System is not supported"
-                        Return
-                    }
-                    elseif ($OSVersion -like "6.2*") {
-                        $UpdateOS = 'Windows 8'
-                        Write-Warning "This Operating System is not supported"
-                        Return
-                    }
-                    elseif ($OSVersion -like "6.1*") {
-                        $UpdateOS = 'Windows 7'
-                    }
-                    else {
-                        Write-Warning "This Operating System is not supported"
+                        $UpdateOS = 'Windows 10'
                     }
                 }
             }
-            #===================================================================================================
+            #=================================================
             #   OSDUpdateLCU
-            #===================================================================================================
+            #=================================================
             $OSDUpdateLCU = $AllOSDUpdates
             $OSDUpdateLCU = $OSDUpdateLCU | Where-Object {$_.UpdateArch -eq $OSArchitecture}
             $OSDUpdateLCU = $OSDUpdateLCU | Where-Object {$_.UpdateOS -eq $UpdateOS}
             $OSDUpdateLCU = $OSDUpdateLCU | Where-Object {($_.UpdateBuild -eq $ReleaseId) -or ($_.UpdateBuild -eq '')}
             $OSDUpdateLCU = $OSDUpdateLCU | Where-Object {$_.UpdateGroup -eq 'LCU'}
-            #===================================================================================================
+            #=================================================
             #   Export Install.wim
-            #===================================================================================================
+            #=================================================
             if (Test-Path "$DestinationFullName\OS\Sources\install.wim") {Remove-Item -Path "$DestinationFullName\OS\Sources\install.wim" -Force | Out-Null}
             $TempInstallWim = Join-Path "$env:Temp" "install$((Get-Date).ToString('mmss')).wim"
 
@@ -172,14 +145,14 @@ function New-OSBuildMultiLang {
             $MountDirectory = Join-Path "$env:Temp" "mount$((Get-Date).ToString('mmss'))"
             New-Item "$MountDirectory" -ItemType Directory | Out-Null
             Mount-WindowsImage -Path "$MountDirectory" -ImagePath "$TempInstallWim" -Index 1 | Out-Null
-            #===================================================================================================
+            #=================================================
             #   Process Indexes
-            #===================================================================================================
+            #=================================================
             foreach ($LangMultiLanguage in $LangMultiLanguages) {
                 if ($LangMultiLanguage -eq $LangMultiDefaultName) {
-					#===================================================================================================
+					#=================================================
 					#   Header
-					#===================================================================================================
+					#=================================================
 					Show-ActionTime
 					Write-Host -ForegroundColor Green "$($Media.ImageName) $LangMultiDefaultName is already processed as Index 1"
                 } else {
@@ -205,9 +178,9 @@ function New-OSBuildMultiLang {
                     Export-WindowsImage -SourceImagePath "$TempInstallWim" -SourceIndex 1 -DestinationImagePath "$DestinationFullName\OS\Sources\install.wim" -DestinationName "$($Media.ImageName) $LangMultiLanguage" | Out-Null
                 }
             }
-            #===================================================================================================
+            #=================================================
             #   Cleanup
-            #===================================================================================================
+            #=================================================
             try {
                 Write-Warning "Waiting 10 seconds for processes to complete before Dismount-WindowsImage ..."
                 Start-Sleep -Seconds 10

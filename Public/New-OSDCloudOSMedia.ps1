@@ -179,16 +179,22 @@ function New-OSDCloudOSMedia {
 
             Write-Verbose "ReleaseId: $ReleaseId"
             Write-Verbose "CurrentBuild: $RegValueCurrentBuild"
-            #=======================================================================
+            #=================================================
             #   Operating System
-            #=======================================================================
+            #=================================================
             $UpdateOS = ''
             if ($OSMajorVersion -eq 10) {
-                if ($OSInstallationType -notlike "*Server*") {$UpdateOS = 'Windows 10'}
-                #elseif ($OSMBuild -ge 17763) {$UpdateOS = 'Windows Server 2019'}
-                elseif ($OSImageName -match '2016') {$UpdateOS = 'Windows Server 2016'}
-                elseif ($OSImageName -match '2019') {$UpdateOS = 'Windows Server 2019'}
-                else {$UpdateOS = 'Windows Server'}
+                if ($OSInstallationType -match 'Server') {
+                    $UpdateOS = 'Windows Server'
+                }
+                else {
+                    if ($OSImageName -match ' 11 ') {
+                        $UpdateOS = 'Windows 11'
+                    }
+                    else {
+                        $UpdateOS = 'Windows 10'
+                    }
+                }
             }
             #=======================================================================
             #WorkingName and WorkingPath'
