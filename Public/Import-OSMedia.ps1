@@ -104,6 +104,10 @@ function Import-OSMedia {
         #Windows Server 2019 Standard (Desktop Experience)
         #Windows Server 2019 Datacenter
         #Windows Server 2019 Datacenter (Desktop Experience)
+        #Windows Server 2022 Standard
+        #Windows Server 2022 Standard (Desktop Experience)
+        #Windows Server 2022 Datacenter
+        #Windows Server 2022 Datacenter (Desktop Experience)
         [ValidateSet(`
             'Windows 10 Education',`
             'Windows 10 Enterprise',`
@@ -135,6 +139,10 @@ function Import-OSMedia {
             'Windows 11 Pro N for Workstations',`
             'Windows Server Standard',`
             'Windows Server Datacenter',
+            'Windows Server 2016 Standard',`
+            'Windows Server 2016 Standard (Desktop Experience)',`
+            'Windows Server 2016 Datacenter',`
+            'Windows Server 2016 Datacenter (Desktop Experience)',
             'Windows Server 2019 Standard',`
             'Windows Server 2019 Standard (Desktop Experience)',`
             'Windows Server 2019 Datacenter',`
@@ -190,7 +198,7 @@ function Import-OSMedia {
     #ImportOSMediaPSDrives
     #ImportOSMediaPSDrives
     
-    begin {
+    Begin {
         Write-Host '========================================================================================' -ForegroundColor DarkGray
         Write-Host -ForegroundColor Green "$($MyInvocation.MyCommand.Name) BEGIN"
         #=================================================
@@ -199,7 +207,7 @@ function Import-OSMedia {
         Show-ActionTime; Write-Host 'Get-OSDBuilder: Validating OSDBuilder Content'
         Show-ActionTime; Write-Warning 'This version of OSDBuilder only supports:'
         Show-ActionTime; Write-Warning 'Windows 10 1607 - 21H2'
-        Show-ActionTime; Write-Warning 'Windows 11 21H2'
+        Show-ActionTime; Write-Warning 'Windows 11 21H2 - 22H2'
         Show-ActionTime; Write-Warning 'Windows Server 2016 1607 - Windows Server 2022 21H1'
         Get-OSDBuilder -CreatePaths -HideDetails
         #=================================================
@@ -325,7 +333,7 @@ function Import-OSMedia {
         }
     }
 
-    process {
+    Process {
         Write-Host '========================================================================================' -ForegroundColor DarkGray
         Write-Host -ForegroundColor Green "$($MyInvocation.MyCommand.Name) PROCESS"
         Write-Verbose "MyInvocation.MyCommand.Name: $($MyInvocation.MyCommand.Name)"
@@ -542,5 +550,5 @@ function Import-OSMedia {
         }
     }
 
-    end {}
+    End {}
 }

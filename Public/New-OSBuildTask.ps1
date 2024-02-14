@@ -11,6 +11,19 @@ https://osdbuilder.osdeploy.com/module/functions/new-osbuildtask
 function New-OSBuildTask {
     [CmdletBinding(DefaultParameterSetName='Basic')]
     param (
+        [Parameter(Mandatory)]
+        [System.String]
+        #Sets the name of the Task
+        $TaskName = $global:SetOSDBuilder.NewOSBuildTaskTaskName,
+
+        [System.String[]]
+        #PowerShell Modules to save in Windows OS
+        $PSModulesOS,
+
+        [System.String[]]
+        #PowerShell Modules to save in WinPE
+        $PSModulesWinPE,
+
         [switch]$WinPEOSDCloud = $global:SetOSDBuilder.NewOSBuildTaskWinPEOSDCloud,
         [switch]$WinREWiFi = $global:SetOSDBuilder.NewOSBuildTaskWinREWiFi,
 
@@ -90,10 +103,6 @@ function New-OSBuildTask {
 
         #Displays a GridView to select Windows Packages to Remove
         [switch]$RemovePackage = $global:SetOSDBuilder.NewOSBuildTaskRemovePackage,
-
-        #Sets the name of the Task
-        [Parameter(Mandatory)]
-        [string]$TaskName = $global:SetOSDBuilder.NewOSBuildTaskTaskName,
 
         #Save as a Task or a Template
         #Default: Task
@@ -234,6 +243,7 @@ function New-OSBuildTask {
             if ($TaskName -match '20H2') {$OSMedia = $OSMedia | Where-Object {$_.ReleaseId -eq '20H2'}}
             if ($TaskName -match '21H1') {$OSMedia = $OSMedia | Where-Object {$_.ReleaseId -eq '21H1'}}
             if ($TaskName -match '21H2') {$OSMedia = $OSMedia | Where-Object {$_.ReleaseId -eq '21H2'}}
+            if ($TaskName -match '22H2') {$OSMedia = $OSMedia | Where-Object {$_.ReleaseId -eq '22H2'}}
     
             Try {
                 $OSMedia = $OSMedia | Out-GridView -OutputMode Single -Title 'Select a Source OSMedia to use for this Task (Cancel to Exit)'
@@ -932,6 +942,8 @@ function New-OSBuildTask {
             #=================================================
             "Drivers" = [string[]]$Drivers;
             "ExtraFiles" = [string[]]$ExtraFiles;
+            "PSModulesOS" = [string[]]$PSModulesOS;
+            "PSModulesWinPE" = [string[]]$PSModulesWinPE;
             "Scripts" = [string[]]$Scripts;
             "StartLayoutXML" = [string]$StartLayoutXML;
             "UnattendXML" = [string]$UnattendXML;
@@ -973,7 +985,6 @@ function New-OSBuildTask {
             "LocalExperiencePacks" = [string[]]$LocalExperiencePacks;
             "LanguageFeature" = [string[]]$LanguageFeature;
             "LanguageCopySources" = [string[]]$LanguageCopySources;
-
         }
 
         #=================================================
